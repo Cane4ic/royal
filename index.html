@@ -2640,108 +2640,139 @@
 
 /* нижняя панель */
 
+/* сама нижняя панель остаётся */
 .slot-bottom {
   background: #111318;
   border-radius: 16px;
   border: 1px solid #262932;
   padding: 14px 16px;
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.4fr) minmax(0, 0.7fr);
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 0.9fr);
   gap: 16px;
-  align-items: center;
+  align-items: stretch;
 }
 
-.slot-input-wrap {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: #151821;
-  border-radius: 10px;
-  border: 1px solid #252733;
-  padding: 3px 6px;
-}
-
-.slot-input {
-  flex: 1;
-  border: none;
-  outline: none;
-  background: transparent;
-  color: var(--text-main);
-  font-size: 14px;
-  text-align: center;
-}
-
-.slot-step-btn {
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
-  border: none;
-  background: #111318;
-  color: var(--text-main);
-  cursor: pointer;
-}
-
-.slot-quick-bets {
-  display: flex;
-  gap: 6px;
-  margin-top: 6px;
-}
-
-.slot-quick-bet {
-  flex: 1;
-  border-radius: 999px;
-  border: 1px solid #252733;
-  background: #111318;
-  color: var(--text-main);
-  font-size: 12px;
-  padding: 4px 0;
-  cursor: pointer;
-}
-
-.slot-lines {
-  font-size: 13px;
-  margin-bottom: 6px;
-}
-
-.slot-status {
-  font-size: 13px;
-  color: var(--text-soft);
-}
-
+/* Кнопка SPIN */
 .slot-main-btn {
   width: 100%;
-  border-radius: 12px;
-  padding: 10px 16px;
-  border: none;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
+  height: 100%;
+  font-size: 28px;
+  padding: 20px 0;
+  border-radius: 20px;
   background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
   color: #111;
-  box-shadow: 0 12px 24px rgba(255,182,70,0.5);
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 12px 24px rgba(255,182,70,0.45);
+  transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+}
+
+.slot-main-btn:hover {
+  transform: scale(1.03);
+  box-shadow: 0 14px 30px rgba(255,182,70,0.55);
+}
+
+.slot-main-btn:active {
+  transform: scale(0.97);
 }
 
 .slot-main-btn:disabled {
-  opacity: .4;
-  cursor: default;
+  opacity: .45;
+  transform: none;
   box-shadow: none;
+  cursor: default;
 }
 
-.slot-log {
-  margin-top: 10px;
-  max-height: 110px;
-  overflow-y: auto;
-  font-size: 12px;
+
+/* карточка ставки */
+
+.slot-bet-card {
+  background: #171b23;
+  border-radius: 14px;
+  border: 1px solid #242836;
+  padding: 10px 12px;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.7);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.slot-bet-title {
+  font-size: 13px;
   color: var(--text-soft);
 }
-.slot-log-line { margin-bottom: 2px; }
+
+.slot-bet-main {
+  background: #10131b;
+  border-radius: 10px;
+  border: 1px solid #272b3c;
+  padding: 6px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.slot-bet-minmax {
+  min-width: 56px;
+  border-radius: 8px;
+  border: none;
+  background: #191d28;
+  color: var(--text-main);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+}
+
+.slot-bet-minmax:hover {
+  background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+  color: #111;
+}
+
+.slot-bet-value {
+  flex: 1;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.slot-bet-value span {
+  font-variant-numeric: tabular-nums;
+}
+
+/* быстрые ставки снизу */
+
+.slot-bet-quick-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.slot-quick-bet {
+  border-radius: 8px;
+  border: 1px solid #272b3c;
+  background: #111318;
+  color: var(--text-main);
+  font-size: 12px;
+  padding: 5px 0;
+  cursor: pointer;
+}
+
+.slot-quick-bet:hover {
+  border-color: rgba(255,216,74,0.8);
+  box-shadow: 0 0 12px rgba(255,216,74,0.35);
+}
+
+/* скрытый инпут — просто хранит число */
+.slot-bet-hidden-input {
+  display: none;
+}
 
 @media (max-width: 960px) {
   .slot-bottom {
     grid-template-columns: 1fr;
-  }
-  .slot-reels {
-    height: 220px;
   }
 }
 
@@ -3591,11 +3622,10 @@
     <div class="slot-header-row">
       <div>
         <h1 class="slot-title">Royal Spin</h1>
-        <p class="slot-subtitle">Демо-режим • играешь на условные монеты</p>
       </div>
       <div class="slot-balance-block">
-        <div class="slot-label">Демо баланс</div>
-        <div class="slot-balance"><span id="slotBalance">1000</span> CR</div>
+        <div class="slot-label">Баланс</div>
+        <div class="slot-balance"><span id="slotBalance">1000</span> $</div>
       </div>
     </div>
 
@@ -3635,33 +3665,36 @@
     <div class="slot-bottom">
       <div class="slot-bottom-left">
         <div class="slot-label">Ставка за спин</div>
-        <div class="slot-input-wrap">
-          <button class="slot-step-btn" data-step="-10">−</button>
-          <input id="slotBet" class="slot-input" type="number" min="1" step="1" value="10">
-          <button class="slot-step-btn" data-step="10">+</button>
-        </div>
-        <div class="slot-quick-bets">
-          <button class="slot-quick-bet" data-quick="10">10</button>
-          <button class="slot-quick-bet" data-quick="25">25</button>
-          <button class="slot-quick-bet" data-quick="50">50</button>
-          <button class="slot-quick-bet" data-quick="100">100</button>
-        </div>
-      </div>
+        <div class="slot-bottom-left">
+  <div class="slot-bet-card">
+    <div class="slot-bet-title">Сумма ставки</div>
 
-      <div class="slot-bottom-center">
-        <div class="slot-label">Линии</div>
-        <div class="slot-lines">1 линия (средний ряд)</div>
-        <div class="slot-status" id="slotStatus">
-          Нажми «SPIN», чтобы крутить барабаны
-        </div>
+    <div class="slot-bet-main">
+      <button class="slot-bet-minmax" data-role="min">МИН</button>
+      <div class="slot-bet-value">
+        <span id="slotBetDisplay">10</span> CR
+      </div>
+      <button class="slot-bet-minmax" data-role="max">МАКС</button>
+    </div>
+
+    <div class="slot-bet-quick-row">
+      <button class="slot-quick-bet" data-quick="10">10</button>
+      <button class="slot-quick-bet" data-quick="25">25</button>
+      <button class="slot-quick-bet" data-quick="50">50</button>
+      <button class="slot-quick-bet" data-quick="100">100</button>
+    </div>
+
+    <!-- скрытый инпут, чтобы логика могла брать число -->
+    <input id="slotBet" type="number" value="10" min="1" step="1" class="slot-bet-hidden-input">
+  </div>
+</div>
+
       </div>
 
       <div class="slot-bottom-right">
-        <button class="slot-main-btn" id="slotSpinBtn">SPIN</button>
-      </div>
-    </div>
+  <button class="slot-main-btn" id="slotSpinBtn">SPIN</button>
+</div>
 
-    <div class="slot-log" id="slotLog"></div>
   </section>
 </main>
 
@@ -5108,14 +5141,20 @@ if (slotRoyalPage && slotBackBtn && mainPage) {
 
 
 // ===== SLOT ROYAL SPIN: логика =====
+// ===== SLOT ROYAL SPIN: логика =====
 const slotBalanceEl = document.getElementById('slotBalance');
 const slotBetInput  = document.getElementById('slotBet');
 const slotSpinBtn   = document.getElementById('slotSpinBtn');
-const slotStatusEl  = document.getElementById('slotStatus');
+// const slotStatusEl  = document.getElementById('slotStatus'); // БОЛЬШЕ НЕ НУЖЕН
 const slotLogEl     = document.getElementById('slotLog');
 const slotReelsEl   = document.getElementById('slotReels');
 const slotStepBtns  = document.querySelectorAll('.slot-step-btn');
 const slotQuickBtns = document.querySelectorAll('.slot-quick-bet');
+const slotBetDisplayEl = document.getElementById('slotBetDisplay');
+const slotMinMaxBtns   = document.querySelectorAll('.slot-bet-minmax');
+
+const SLOT_MIN_BET = 1;
+const SLOT_MAX_BET = 1000;
 
 const SLOT_ROWS = 3;
 const SLOT_COLS = 5;
@@ -5128,38 +5167,13 @@ let slotMatrix = Array.from({ length: SLOT_ROWS }, () =>
   Array(SLOT_COLS).fill(null)
 );
 
-// пути к картинкам (замени на свои)
+// символы
 const slotSymbols = [
-  {
-    id: 'A',
-    img: 'symbols/cherry.png',   // вишня
-    pay: {3: 20, 4: 40, 5: 80},
-    weight: 6
-  },
-  {
-    id: 'B',
-    img: 'symbols/lemon.png',    // лимон
-    pay: {3: 15, 4: 30, 5: 60},
-    weight: 7
-  },
-  {
-    id: 'C',
-    img: 'symbols/grape.png',    // виноград
-    pay: {3: 25, 4: 50, 5: 100},
-    weight: 5
-  },
-  {
-    id: 'D',
-    img: 'symbols/diamond.png',  // алмаз
-    pay: {3: 40, 4: 80, 5: 150},
-    weight: 3
-  },
-  {
-    id: 'E',
-    img: 'symbols/crown.png',    // корона
-    pay: {3: 60, 4: 150, 5: 300},
-    weight: 2
-  },
+  { id: 'A', img: 'symbols/cherry.png',   pay: {3: 20, 4: 40, 5: 80},   weight: 6 },
+  { id: 'B', img: 'symbols/lemon.png',    pay: {3: 15, 4: 30, 5: 60},   weight: 7 },
+  { id: 'C', img: 'symbols/grape.png',    pay: {3: 25, 4: 50, 5: 100},  weight: 5 },
+  { id: 'D', img: 'symbols/diamond.png',  pay: {3: 40, 4: 80, 5: 150},  weight: 3 },
+  { id: 'E', img: 'symbols/crown.png',    pay: {3: 60, 4: 150, 5: 300}, weight: 2 },
 ];
 
 function updateSlotBalanceUI() {
@@ -5174,11 +5188,20 @@ function addSlotLog(text) {
   slotLogEl.prepend(div);
 }
 
+function setSlotBet(value) {
+  let bet = Number(value) || 0;
+  if (bet < SLOT_MIN_BET) bet = SLOT_MIN_BET;
+  if (bet > SLOT_MAX_BET) bet = SLOT_MAX_BET;
+
+  if (slotBetInput) slotBetInput.value = bet.toString();
+  if (slotBetDisplayEl) slotBetDisplayEl.textContent = bet.toFixed(0);
+}
+
 function getSlotBet() {
   if (!slotBetInput) return 0;
   let bet = parseInt(slotBetInput.value, 10);
-  if (isNaN(bet) || bet <= 0) bet = 10;
-  slotBetInput.value = bet.toString();
+  if (isNaN(bet) || bet <= 0) bet = SLOT_MIN_BET;
+  setSlotBet(bet);
   return bet;
 }
 
@@ -5209,13 +5232,6 @@ function renderReelFromMatrix(reelIndex) {
   }
 }
 
-// рендер всей матрицы
-function renderFullMatrix() {
-  for (let col = 0; col < SLOT_COLS; col++) {
-    renderReelFromMatrix(col);
-  }
-}
-
 // подсветка выигрыша по средней линии
 function highlightWinOnMiddle(count) {
   const rowIndex = 1; // средний ряд
@@ -5235,7 +5251,7 @@ function spinSlot() {
   if (!bet) return;
 
   if (bet > slotBalance) {
-    slotStatusEl.textContent = 'Недостаточно демо-монет для этого спина';
+    addSlotLog('Недостаточно баланса для спина.');
     return;
   }
 
@@ -5244,14 +5260,12 @@ function spinSlot() {
 
   slotSpinning = true;
   slotSpinBtn.disabled = true;
-  slotStatusEl.textContent = 'Крутим барабаны...';
 
   // сброс матрицы
   slotMatrix = Array.from({ length: SLOT_ROWS }, () =>
     Array(SLOT_COLS).fill(null)
   );
 
-  // функция "крутить конкретный барабан"
   let reelsStopped = 0;
 
   for (let col = 0; col < SLOT_COLS; col++) {
@@ -5265,7 +5279,6 @@ function spinSlot() {
     const cells = reelEl.querySelectorAll('.slot-symbol');
     reelEl.classList.add('slot-reel-spinning');
 
-    // быстрый "рандом" для этого барабана
     let frames = 10;
     const interval = setInterval(() => {
       cells.forEach(cell => {
@@ -5278,7 +5291,6 @@ function spinSlot() {
       }
     }, 60);
 
-    // финальная остановка с задержкой
     setTimeout(() => {
       clearInterval(interval);
 
@@ -5294,7 +5306,7 @@ function spinSlot() {
         // все барабаны остановились — считаем выигрыш
         finishSlotSpin(bet);
       }
-    }, 600 + delay); // базовая длительность + задержка по колонке
+    }, 600 + delay);
   }
 }
 
@@ -5323,10 +5335,8 @@ function finishSlotSpin(bet) {
   if (win > 0) {
     slotBalance += win;
     updateSlotBalanceUI();
-    slotStatusEl.textContent = `Выигрыш: ${win} CR!`;
     addSlotLog(`Выигрыш ${win} CR (символ ${first.id} ×${count})`);
   } else {
-    slotStatusEl.textContent = 'Без выигрыша. Попробуй ещё раз.';
     addSlotLog('Спин без выигрыша.');
   }
 
@@ -5338,26 +5348,33 @@ if (slotSpinBtn) {
   slotSpinBtn.addEventListener('click', spinSlot);
 }
 
-// +/- и быстрые кнопки ставки
-slotStepBtns.forEach(btn => {
+// быстрые ставки
+slotQuickBtns.forEach(btn => {
   btn.addEventListener('click', () => {
-    const step = parseInt(btn.dataset.step, 10) || 0;
-    const current = getSlotBet();
-    let next = current + step;
-    if (next < 1) next = 1;
-    slotBetInput.value = next.toString();
+    const val = parseFloat(btn.dataset.quick || '0');
+    if (!val) return;
+    setSlotBet(val);
   });
 });
 
-slotQuickBtns.forEach(btn => {
+// MIN / MAX
+slotMinMaxBtns.forEach(btn => {
   btn.addEventListener('click', () => {
-    const val = parseInt(btn.dataset.quick, 10) || 0;
-    if (!val) return;
-    slotBetInput.value = val.toString();
+    const role = btn.dataset.role;
+    if (role === 'min') {
+      setSlotBet(SLOT_MIN_BET);
+    } else if (role === 'max') {
+      const maxByBalance = Math.max(SLOT_MIN_BET, Math.min(SLOT_MAX_BET, slotBalance));
+      setSlotBet(maxByBalance);
+    }
   });
 });
 
 updateSlotBalanceUI();
+setSlotBet(10);
+
+
+
 
 
 
