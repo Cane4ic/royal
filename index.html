@@ -1202,34 +1202,17 @@
     }
 
     .games-row {
-      display: flex;
-      gap: 18px;
-      overflow-x: auto;
-      padding-bottom: 8px;
-      scroll-behavior: smooth;
-    }
-
-    .games-row::-webkit-scrollbar {
-      height: 6px;
-    }
-    .games-row::-webkit-scrollbar-track {
-      background: #0b0c10;
-    }
-    .games-row::-webkit-scrollbar-thumb {
-      background: #262932;
-      border-radius: 999px;
-    }
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  overflow: visible;
+  padding-bottom: 0;
+}
 
     .game-card {
-      flex: 0 0 210px;
-      border-radius: 18px;
-      background: #101117;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.7);
-      cursor: pointer;
-      transition: transform .15s ease-out, box-shadow .15s ease-out, filter .15s;
-    }
+  width: 100%;
+}
+
 
     .game-card:hover {
       transform: translateY(-4px);
@@ -1251,13 +1234,9 @@
     }
 
     .game-info {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      padding: 14px 12px 10px;
-      background: linear-gradient(to top, rgba(0,0,0,0.95), rgba(0,0,0,0.1));
-    }
+  background: none !important;
+}
+
 
     .game-title {
       font-size: 15px;
@@ -1373,8 +1352,16 @@
       }
 
       .game-card {
-        flex: 0 0 160px;
-      }
+  width: 100%;
+  max-width: 160px;      /* раньше 210px */
+  border-radius: 14px;   /* чуть меньше */
+  background: #101117;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+  transition: transform .15s ease-out, box-shadow .15s ease-out, filter .15s;
+}
+
     }
 
     /* бургер внутри sidebar — виден на мобилке */
@@ -1411,6 +1398,12 @@
         top: 110px !important;
       }
     }
+
+    @media (max-width: 768px) {
+  .games-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
     /* ====== СТРАНИЦА ПРОФИЛЯ (ЛИЧНЫЙ КАБИНЕТ) ====== */
 
 .profile-header {
@@ -2776,7 +2769,421 @@
   }
 }
 
+/* ===== ROYAL MINES ===== */
 
+.mines-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* чтобы поле было по центру */
+}
+
+/* верхняя строка с балансом/статусом */
+.mines-header {
+  width: 100%;
+  max-width: 420px;
+  display:flex;
+  justify-content:space-between;
+  align-items: center;
+  color:#F7A600;
+  margin-bottom:15px;
+  font-size:18px;
+}
+
+/* СЕТКА 5×5, всегда 5 колонок */
+.mines-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  width: 100%;
+  max-width: 420px;
+  margin-top: 10px;
+}
+
+/* 3D-эффект клетки */
+.mines-cell {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1/1;
+  cursor: pointer;
+  border-radius: 14px;
+  overflow: hidden;
+  transition: transform 0.08s ease-out;
+  background: linear-gradient(145deg, #1a1818, #151516);
+  box-shadow:
+      inset 4px 4px 8px rgba(0,0,0,0.35),
+      inset -4px -4px 8px rgba(255,255,255,0.08),
+      0 4px 10px rgba(0,0,0,0.4);
+}
+
+/* эффект нажатия */
+.mines-cell:active {
+  transform: scale(0.94);
+}
+
+/* картинка внутренняя */
+.mines-cell .mines-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 14px;
+  transition: 0.15s;
+}
+
+
+/* Можно оставить эти классы для эффекта, если захочешь */
+.mines-cell.open {
+  /* например, лёгкое свечение */
+  /* box-shadow: 0 0 8px rgba(255, 216, 97, 0.4); */
+}
+
+.mines-cell.bomb {
+  /* box-shadow: 0 0 10px rgba(255, 0, 0, 0.5); */
+}
+
+
+
+/* Чуть адаптива по тексту, но 5×5 не трогаем */
+@media (max-width: 480px) {
+  .mines-wrapper {
+    padding: 12px;
+  }
+
+  .mines-header {
+    font-size: 14px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  
+}
+
+/* ===== Анимация нажатия клетки ===== */
+.mines-cell {
+  transition: transform 0.08s ease-out;
+}
+
+.mines-cell:active {
+  transform: scale(0.94);
+}
+
+/* ===== Анимация переворота картинки ===== */
+.mines-cell .mines-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  transition: transform 0.15s;
+  backface-visibility: hidden;
+}
+
+.mines-img.flip {
+  animation: minesFlip 0.18s ease-in-out;
+}
+
+@keyframes minesFlip {
+  0%   { transform: scaleX(1); }
+  50%  { transform: scaleX(0); }
+  100% { transform: scaleX(1); }
+}
+
+
+/* подсветка выигрышных safe-клеток */
+.mines-cell.safe-glow .mines-img {
+  box-shadow: 0 0 14px rgba(255, 208, 0, 0.8);
+  filter: brightness(1.25);
+  transition: 0.3s;
+}
+
+/* ===== ПАНЕЛЬ СТАВОК ROYAL MINES ===== */
+
+.mines-controls {
+  width: 100%;
+  max-width: 420px;
+  margin-top: 12px;   /* отступ от поля вниз */
+}
+
+.mines-card {
+  background: #101010;
+  border-radius: 18px;
+  padding: 12px 14px 14px;
+  box-shadow:
+    0 8px 18px rgba(0,0,0,0.7),
+    inset 0 0 0 1px rgba(255,255,255,0.03);
+}
+
+/* верхняя строка: ставка + +/- */
+.mines-row-top {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.mines-field {
+  flex: 1;
+}
+
+.mines-field-small {
+  max-width: 150px;
+}
+
+.mines-label {
+  font-size: 11px;
+  color: #777;
+  margin-bottom: 4px;
+}
+
+/* инпут ставки */
+.mines-bet-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #171717;
+  border-radius: 999px;
+  padding: 6px 10px;
+  border: 1px solid #262626;
+}
+
+.mines-bet-currency {
+  font-size: 12px;
+  color: #888;
+}
+
+.mines-bet-input-wrap input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-size: 14px;
+}
+
+/* кнопки +/- */
+.mines-step-wrap {
+  display: flex;
+  gap: 6px;
+}
+
+.mines-step {
+  /* flex: 1;
+  border: none;
+  border-radius: 999px;
+  padding: 6px 8px;
+  font-size: 13px;
+  background: #1f1f1f;
+  color: #ddd;
+  cursor: pointer;
+  box-shadow:
+    0 2px 6px rgba(0,0,0,0.6),
+    inset 0 0 0 1px rgba(255,255,255,0.03);
+  transition: transform 0.06s ease-out, box-shadow 0.06s; */
+}
+
+.mines-step:active {
+  transform: translateY(1px) scale(0.97);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.7);
+}
+
+/* быстрая ставка */
+.mines-row-quick {
+  margin-bottom: 10px;
+}
+
+.mines-quick-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.mines-quick {
+  /* flex: 1;
+  min-width: 60px;
+  border: none;
+  border-radius: 999px;
+  padding: 5px 0;
+  font-size: 13px;
+  background: #181818;
+  color: #bbb;
+  cursor: pointer;
+  box-shadow:
+    0 2px 6px rgba(0,0,0,0.6),
+    inset 0 0 0 1px rgba(255,255,255,0.02);
+  transition: transform 0.06s ease-out, background 0.1s; */
+}
+
+.mines-quick:hover {
+  background: #202020;
+}
+
+.mines-quick:active {
+  transform: translateY(1px) scale(0.97);
+}
+
+/* нижние кнопки */
+.mines-row-main {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.mines-main-btn {
+  flex: 1;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 0;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  background: linear-gradient(135deg, #ffcc45, #ff9c1d);
+  color: #1a1200;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  box-shadow:
+    0 6px 14px rgba(0,0,0,0.8),
+    0 0 0 1px rgba(255,255,255,0.1);
+  transition: transform 0.08s ease-out, box-shadow 0.08s, filter 0.08s;
+}
+
+.mines-main-btn:active:not(:disabled) {
+  transform: translateY(1px) scale(0.98);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.8);
+  filter: brightness(0.97);
+}
+
+.mines-main-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* кнопка "Забрать" — вторичная */
+.mines-main-btn-secondary {
+  background: #181818;
+  color: #ddd;
+}
+
+/* адаптив */
+@media (max-width: 480px) {
+  .mines-card {
+    padding: 10px 10px 12px;
+  }
+  .mines-row-top {
+    flex-direction: column;
+  }
+  .mines-field-small {
+    max-width: none;
+  }
+}
+
+/* общий блок поля */
+.mines-field {
+  flex: 1;
+}
+
+/* маленькие поля справа/слева */
+.mines-field-small {
+  max-width: 140px;
+}
+
+/* обёртка выбора мин */
+.mines-mines-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #141414;
+  box-shadow:
+    0 0 0 1px #000,
+    inset 0 2px 3px rgba(255,255,255,0.02),
+    inset 0 -3px 6px rgba(0,0,0,0.6);
+}
+
+.mines-mines-step {
+  /* border: none;
+  outline: none;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #1f1f1f;
+  color: #f5f5f5;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow:
+    0 0 0 1px #000,
+    inset 0 2px 3px rgba(255,255,255,0.03),
+    inset 0 -3px 5px rgba(0,0,0,0.6);
+  transition: transform 0.08s ease-out, box-shadow 0.08s ease-out; */
+}
+
+.mines-mines-step:active {
+  transform: translateY(1px);
+  box-shadow:
+    0 0 0 1px #000,
+    inset 0 1px 2px rgba(255,255,255,0.01),
+    inset 0 -1px 2px rgba(0,0,0,0.8);
+}
+
+#minesCountDisplay {
+  min-width: 24px;
+  text-align: center;
+  font-weight: 600;
+  color: #f7a600;
+}
+
+/* === единый 3D-стиль для маленьких кнопок в панели === */
+.mines-mines-step,
+.mines-step,
+.mines-quick {
+  border: none;
+  outline: none;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #1f1f1f;
+  color: #f5f5f5;
+  font-size: 13px;
+  cursor: pointer;
+  box-shadow:
+    0 0 0 1px #000,
+    inset 0 2px 3px rgba(255,255,255,0.03),
+    inset 0 -3px 5px rgba(0,0,0,0.6);
+  transition:
+    transform 0.08s ease-out,
+    box-shadow 0.08s ease-out,
+    background 0.1s ease-out;
+}
+
+.mines-mines-step:hover,
+.mines-step:hover,
+.mines-quick:hover {
+  background: #262626;
+}
+
+.mines-mines-step:active,
+.mines-step:active,
+.mines-quick:active {
+  transform: translateY(1px);
+  box-shadow:
+    0 0 0 1px #000,
+    inset 0 1px 2px rgba(255,255,255,0.01),
+    inset 0 -1px 2px rgba(0,0,0,0.8);
+}
+
+/* число мин по центру и поярче */
+#minesCountDisplay {
+  min-width: 24px;
+  text-align: center;
+  font-weight: 600;
+  color: #f7a600;
+  font-size: 16px;
+}
 
   </style>
 </head>
@@ -3000,94 +3407,41 @@
   </div>
 
   <div class="games-row">
-    <!-- здесь ТВОИ карточки слотов -->
-    <!-- КАРТОЧКА СЛОТА В ЛОББИ -->
-<article class="game-card" data-open-game="slot-royal">
-  <div class="game-badge">Слот</div>
+
+  <div class="game-card">
+    <div class="game-thumb"><img src="img/game1.jpg"></div>
+    
+  </div>
+
+  <div class="game-card">
+    <div class="game-thumb"><img src="img/game2.jpg"></div>
+    
+  </div>
+
+  <div class="game-card" data-open-game="royal-mines">
   <div class="game-thumb">
-    <!-- можешь заменить на свой баннер -->
-    <img src="games/slot-royal.jpg" alt="Royal Spin">
+    <img src="img/game3.jpg" alt="">
   </div>
-  <div class="game-info">
-    <div class="game-title">Royal Spin</div>
-    <div class="game-provider">ROYAL STUDIO</div>
+</div>
+
+  <div class="game-card">
+    <div class="game-thumb"><img src="img/game4.jpg"></div>
+    
   </div>
-</article>
+
+  <div class="game-card">
+    <div class="game-thumb"><img src="img/game5.jpg"></div>
+    
+  </div>
+
+  <div class="game-card">
+    <div class="game-thumb"><img src="img/game6.jpg"></div>
+    
+  </div>
+
+</div>
 
 
-<article class="game-card">
-  <div class="game-badge">Новинка</div>
-  <div class="game-thumb">
-    <img src="games/joker-stoker.jpg" alt="Joker Stoker">
-  </div>
-  <div class="game-info">
-    <div class="game-title">Joker Stoker</div>
-    <div class="game-provider">ENDORPHINA</div>
-  </div>
-</article>
-
-<article class="game-card">
-  <div class="game-badge">Новинка</div>
-  <div class="game-thumb">
-    <img src="games/gates-of-olympus.jpg" alt="Gates of Olympus">
-  </div>
-  <div class="game-info">
-    <div class="game-title">Gates of Olympus</div>
-    <div class="game-provider">PRAGMATIC PLAY</div>
-  </div>
-</article>
-
-<article class="game-card">
-  <div class="game-badge">Top</div>
-  <div class="game-thumb">
-    <img src="games/baba-yaga-tales.jpg" alt="Baba Yaga Tales">
-  </div>
-  <div class="game-info">
-    <div class="game-title">Baba Yaga Tales</div>
-    <div class="game-provider">SPINOMENAL</div>
-  </div>
-</article>
-
-<article class="game-card">
-  <div class="game-badge">Hot</div>
-  <div class="game-thumb">
-    <img src="games/3-energy-crowns.jpg" alt="3 Energy Crowns">
-  </div>
-  <div class="game-info">
-    <div class="game-title">3 Energy Crowns</div>
-    <div class="game-provider">AMIGO GAMING</div>
-  </div>
-</article>
-
-<article class="game-card">
-  <div class="game-thumb">
-    <img src="games/mega-fruits.jpg" alt="Mega Fruits">
-  </div>
-  <div class="game-info">
-    <div class="game-title">Mega Fruits</div>
-    <div class="game-provider">AMATIC</div>
-  </div>
-</article>
-
-<article class="game-card">
-  <div class="game-thumb">
-    <img src="games/ultra-star.jpg" alt="Ultra Star">
-  </div>
-  <div class="game-info">
-    <div class="game-title">Ultra Star</div>
-    <div class="game-provider">NOVOMATIC</div>
-  </div>
-</article>
-
-<article class="game-card">
-  <div class="game-thumb">
-    <img src="games/book-of-gold.jpg" alt="Book of Gold">
-  </div>
-  <div class="game-info">
-    <div class="game-title">Book of Gold</div>
-    <div class="game-provider">PLAYSUN</div>
-  </div>
-</article>
 
     <!-- остальные слоты по тому же шаблону -->
   </div>
@@ -3095,197 +3449,17 @@
 
 <!-- СЕКЦИЯ: БЫСТРЫЕ ИГРЫ -->
 <section class="games-section" id="fastSection">
-  <div class="games-header">
-    <h2 class="games-title">Быстрые игры</h2>
-    <div class="games-controls">
-      <button class="games-arrow games-arrow-prev">‹</button>
-      <button class="games-arrow games-arrow-next">›</button>
-    </div>
-  </div>
-
-  <div class="games-row">
-    <!-- свои быстрые игры -->
-    <!-- БЫСТРЫЕ ИГРЫ -->
-
-    <article class="game-card" data-open-game="crash-royal">
-  <div class="game-badge">Crash</div>
-  <div class="game-thumb">
-    <img src="games/crash-royal.jpg" alt="Crash Royal">
-  </div>
-  <div class="game-info">
-    <div class="game-title">Crash Royal</div>
-    <div class="game-provider">ROYAL STUDIO</div>
-  </div>
-</article>
-<article class="game-card" data-open-game="chicken-road">
-  <div class="game-badge">Fast</div>
-  <div class="game-thumb">
-    <img src="games/chicken-road.jpg" alt="Chicken Road">
-  </div>
-  <div class="game-info">
-    <div class="game-title">Chicken Road</div>
-    <div class="game-provider">ROYAL STUDIO</div>
-  </div>
-</article>
-
-
-<article class="game-card">
-  <div class="game-badge">С мгновенным выигрышем</div>
-  <div class="game-thumb">
-    <img src="games/coin-flip.jpg" alt="Coin Flip">
-  </div>
-  <div class="game-info">
-    <div class="game-title">Coin Flip</div>
-    <div class="game-provider">EVOPLAY</div>
-  </div>
-</article>
-
-<article class="game-card">
-  <div class="game-badge">Моментальная</div>
-  <div class="game-thumb">
-    <img src="games/plinko.jpg" alt="Plinko X">
-  </div>
-  <div class="game-info">
-    <div class="game-title">Plinko X</div>
-    <div class="game-provider">HACKSAW</div>
-  </div>
-</article>
-
-<article class="game-card">
-  <div class="game-thumb">
-    <img src="games/mines.jpg" alt="Mines">
-  </div>
-  <div class="game-info">
-    <div class="game-title">Mines</div>
-    <div class="game-provider">SPRYBE</div>
-  </div>
-</article>
-
-<article class="game-card">
-  <div class="game-thumb">
-    <img src="games/dice-duel.jpg" alt="Dice Duel">
-  </div>
-  <div class="game-info">
-    <div class="game-title">Dice Duel</div>
-    <div class="game-provider">BGAMING</div>
-  </div>
-</article>
-
-<article class="game-card">
-  <div class="game-thumb">
-    <img src="games/hi-lo.jpg" alt="Hi-Lo">
-  </div>
-  <div class="game-info">
-    <div class="game-title">Hi-Lo</div>
-    <div class="game-provider">PRAGMATIC PLAY</div>
-  </div>
-</article>
-
-  </div>
+  
 </section>
 
 <!-- СЕКЦИЯ: ПОПУЛЯРНЫЕ -->
 <section class="games-section" id="popularSection">
-  <div class="games-header">
-    <h2 class="games-title">Популярные</h2>
-    <div class="games-controls">
-      <button class="games-arrow games-arrow-prev">‹</button>
-      <button class="games-arrow games-arrow-next">›</button>
-    </div>
-  </div>
-
-  <div class="games-row">
-    <!-- популярные игры (можешь дублировать слоты/быстрые, не важно) -->
-    <!-- ПОПУЛЯРНЫЕ -->
-<article class="game-card">
-  <div class="game-badge">Top</div>
-  <div class="game-thumb">
-    <img src="games/sweet-bonanza.jpg" alt="Sweet Bonanza">
-  </div>
-  <div class="game-info">
-    <div class="game-title">Sweet Bonanza</div>
-    <div class="game-provider">PRAGMATIC PLAY</div>
-  </div>
-</article>
-
-<article class="game-card">
-  <div class="game-badge">Top</div>
-  <div class="game-thumb">
-    <img src="games/100-sevens-santa.jpg" alt="100 Sevens Santa">
-  </div>
-  <div class="game-info">
-    <div class="game-title">100 Sevens Santa</div>
-    <div class="game-provider">SPINOMENAL</div>
-  </div>
-</article>
-
-<article class="game-card">
-  <div class="game-badge">Hot</div>
-  <div class="game-thumb">
-    <img src="games/diver.jpg" alt="Diver x9.63">
-  </div>
-  <div class="game-info">
-    <div class="game-title">Diver</div>
-    <div class="game-provider">AMIGO GAMING</div>
-  </div>
-</article>
-
-<article class="game-card">
-  <div class="game-thumb">
-    <img src="games/big-bass-bonanza.jpg" alt="Big Bass Bonanza">
-  </div>
-  <div class="game-info">
-    <div class="game-title">Big Bass Bonanza</div>
-    <div class="game-provider">PRAGMATIC PLAY</div>
-  </div>
-</article>
-
-<article class="game-card">
-  <div class="game-thumb">
-    <img src="games/book-of-dead.jpg" alt="Book of Dead">
-  </div>
-  <div class="game-info">
-    <div class="game-title">Book of Dead</div>
-    <div class="game-provider">PLAY'N GO</div>
-  </div>
-</article>
-
-<article class="game-card">
-  <div class="game-thumb">
-    <img src="games/starburst.jpg" alt="Starburst">
-  </div>
-  <div class="game-info">
-    <div class="game-title">Starburst</div>
-    <div class="game-provider">NETENT</div>
-  </div>
-</article>
-
-  </div>
+  
 </section>
 
 <!-- СЕКЦИЯ: НОВИНКИ -->
 <section class="games-section" id="newSection">
-  <div class="games-header">
-    <h2 class="games-title">Новинки</h2>
-    <div class="games-controls">
-      <button class="games-arrow games-arrow-prev">‹</button>
-      <button class="games-arrow games-arrow-next">›</button>
-    </div>
-  </div>
-
-  <div class="games-row">
-    <!-- новинки -->
-    <article class="game-card">
-      <div class="game-badge">New</div>
-      <div class="game-thumb">
-        <img src="games/game4.jpg" alt="New Slot">
-      </div>
-      <div class="game-info">
-        <div class="game-title">New Slot</div>
-        <div class="game-provider">Provider</div>
-      </div>
-    </article>
-  </div>
+  
 </section>
 
   </main>
@@ -4151,7 +4325,110 @@
     </div>
   </div>
 
+  <main class="page-content" id="minesRoyalPage" style="display:none;">
+
+  <button class="profile-back-btn" id="minesBackBtn">← Назад в лобби</button>
+
+  <section class="mines-wrapper">
+
+  <!-- верхняя панель -->
+  <div class="mines-header">
+  <div class="mines-status" id="minesStatus">Royal Mines</div>
+</div>
+
+  <!-- игровое поле 5×5 -->
+  <div class="mines-grid" id="minesGrid"></div>
+
+  <!-- ПАНЕЛЬ СТАВОК ПОД ПОЛЕМ -->
+  <div class="mines-controls">
+    <div class="mines-card">
+      <!-- ВЕРХНЯЯ СТРОКА -->
+      <div class="mines-row-top">
+        <!-- ЛЕВО: СТАВКА -->
+        <div class="mines-field">
+          <div class="mines-label">Ставка</div>
+          <div class="mines-bet-input-wrap">
+            <span class="mines-bet-currency">CR</span>
+            <input id="minesBet" type="number" value="10" min="1" step="1">
+          </div>
+        </div>
+
+        <!-- СЕРЕДИНА: МИНЫ -->
+        <div class="mines-field mines-field-small">
+          <div class="mines-label">Мины</div>
+          <div class="mines-mines-wrap">
+            <button class="mines-mines-step" data-mines-step="-1">−</button>
+            <span id="minesCountDisplay">3</span>
+            <button class="mines-mines-step" data-mines-step="1">+</button>
+          </div>
+        </div>
+
+        <!-- ПРАВО: + / - -->
+        <div class="mines-field mines-field-small">
+          <div class="mines-label">Изменить</div>
+          <div class="mines-step-wrap">
+            <button class="mines-step" data-step="-10">−10</button>
+            <button class="mines-step" data-step="+10">+10</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- БЫСТРЫЕ СТАВКИ -->
+      <div class="mines-row-quick">
+        <span class="mines-label">Быстрая ставка</span>
+        <div class="mines-quick-wrap">
+          <button class="mines-quick" data-quick="10">10</button>
+          <button class="mines-quick" data-quick="50">50</button>
+          <button class="mines-quick" data-quick="100">100</button>
+          <button class="mines-quick" data-quick="250">250</button>
+        </div>
+      </div>
+
+      <!-- НИЖНИЕ КНОПКИ -->
+      <div class="mines-row-main">
+        <button id="minesPlayBtn" class="mines-main-btn">Играть</button>
+        <button id="minesCashoutBtn"
+                class="mines-main-btn mines-main-btn-secondary"
+                disabled>
+          Забрать
+        </button>
+      </div>
+    </div>
+  </div>
+
+  
+
+</section>
+
+
+</main>
+
+
   <script>
+   
+function updateAllBalancesUI() {
+  // шапка
+  if (headerBalanceEl) {
+    // если хочешь с копейками:
+    headerBalanceEl.textContent = playerBalance.toFixed(2);
+  }
+
+  // в слотах
+  if (slotBalanceEl) {
+    slotBalanceEl.textContent = playerBalance.toFixed(0) + '';
+  }
+
+  // в Crash Royal
+  if (crashBalanceEl) {
+    crashBalanceEl.textContent = playerBalance.toFixed(0) + '';
+  }
+
+  // в Chicken Road
+  if (chickenBalanceEl) {
+    chickenBalanceEl.textContent = playerBalance.toFixed(0) + '';
+  }
+}
+
     const sidebar = document.querySelector('.sidebar');
     const sidebarBackdrop = document.getElementById('sidebarBackdrop');
     const burgerToggle = document.getElementById('burgerToggle');
@@ -4197,6 +4474,26 @@
     const withdrawMinText = document.getElementById('withdrawMinText');
     const withdrawBalanceAmount = document.getElementById('withdrawBalanceAmount');
     const withdrawBalanceCode = document.getElementById('withdrawBalanceCode');
+
+     // ===== ГЛОБАЛЬНЫЙ БАЛАНС ИГРОКА =====
+let playerBalance = 1000; // стартовый демо-баланс
+
+// элементы, где этот баланс показываем
+const headerBalanceEl = document.querySelector('.wallet-balance'); // в шапке
+const slotBalanceEl   = document.getElementById('slotBalance');
+const crashBalanceEl  = document.getElementById('crashBalance');
+const chickenBalanceEl = document.getElementById('chickenBalance');
+
+function changePlayerBalance(delta) {
+  playerBalance += delta;
+  if (playerBalance < 0) playerBalance = 0;
+
+  updateAllBalancesUI();
+}
+
+// сразу при старте один раз синхронизируем UI
+updateAllBalancesUI();
+
 
     const withdrawBalances = {
       USDTTRC20: 0,
@@ -4576,802 +4873,323 @@ if (promoSlider) {
       });
     }
 
-        // ===== CRASH ROYAL: переключение экранов =====
-    const crashRoyalPage = document.getElementById('crashRoyalPage');
-    const crashBackBtn = document.getElementById('crashBackBtn');
-    const fastGameCards = document.querySelectorAll('[data-open-game="crash-royal"]');
-
-    if (crashRoyalPage && crashBackBtn && mainPage) {
-      fastGameCards.forEach(card => {
-        card.addEventListener('click', () => {
-          mainPage.style.display = 'none';
-          profilePage && (profilePage.style.display = 'none');
-          crashRoyalPage.style.display = 'block';
-          window.scrollTo(0, 0);
-        });
-      });
-
-      crashBackBtn.addEventListener('click', () => {
-        crashRoyalPage.style.display = 'none';
-        mainPage.style.display = 'block';
-        window.scrollTo(0, 0);
-      });
-    }
-
-        // ===== CRASH ROYAL: логика демо-игры (автораунды) =====
-const crashGraphLine = document.querySelector('.crash-graph-line');
-const crashBalanceEl    = document.getElementById('crashBalance');
-const crashMultiplierEl = document.getElementById('crashMultiplier');
-const crashStatusEl     = document.getElementById('crashStatus');
-const crashBetInput     = document.getElementById('crashBet');
-const crashStartBtn     = document.getElementById('crashStartBtn');
-const crashCashoutBtn   = document.getElementById('crashCashoutBtn');
-const crashLogEl        = document.getElementById('crashLog');
-const crashRoundsEl     = document.getElementById('crashRounds');
-const crashStepBtns     = document.querySelectorAll('.crash-step-btn');
-const crashQuickBtns    = document.querySelectorAll('.crash-quick-bet');
-const crashAutoBet      = document.getElementById('crashAutoBet');
-const crashAutoCashoutCheck = document.getElementById('crashAutoCashoutCheck');
-const crashAutoCashout  = document.getElementById('crashAutoCashout');
-
-let crashBalance = 1000;
-let crashCurrentMulti = 1.0;
-let crashInterval = null;       // таймер роста множителя
-let crashCountdownTimer = null; // таймер отсчёта до раунда
-let crashState = 'idle';        // 'countdown' | 'running'
-let crashCountdown = 0;
-
-let crashCurrentBet = 0;
-let crashJoined = false;        // игрок успел нажать Старт до начала раунда
-let crashCashedOut = false;     // уже забрал в этом раунде
-
-function updateCrashUI() {
-  if (crashBalanceEl) crashBalanceEl.textContent = crashBalance.toString();
-  if (crashMultiplierEl) crashMultiplierEl.textContent = crashCurrentMulti.toFixed(2);
-}
-
-function addCrashLogLine(text) {
-  if (!crashLogEl) return;
-  const div = document.createElement('div');
-  div.className = 'crash-log-line';
-  div.textContent = text;
-  crashLogEl.prepend(div);
-}
-
-function addCrashRound(multi) {
-  if (!crashRoundsEl) return;
-  const pill = document.createElement('button');
-  pill.className = 'crash-history-pill ' + (multi >= 2 ? 'win' : 'lose');
-  pill.textContent = multi.toFixed(2) + 'x';
-
-  crashRoundsEl.prepend(pill);
-
-  const pills = crashRoundsEl.querySelectorAll('.crash-history-pill');
-  if (pills.length > 12) {
-    pills[pills.length - 1].remove();
-  }
-}
-
-function resetCrashRound() {
-  crashCurrentMulti = 1.0;
-  updateCrashUI();
-  resetCrashVisuals();
-  crashJoined = false;
-  crashCashedOut = false;
-  crashCurrentBet = 0;
-}
-
-function getBetValue() {
-  if (!crashBetInput) return 0;
-  let bet = parseInt(crashBetInput.value, 10);
-  if (isNaN(bet) || bet <= 0) bet = 10;
-  crashBetInput.value = bet.toString();
-  return bet;
-}
-
-/* ===== ОТСЧЁТ ДО СЛЕДУЮЩЕГО РАУНДА ===== */
-// максимум, при котором график заполняет всё поле
-const CRASH_VISUAL_MAX_MULTI = 10;
-
-function updateCrashGraph() {
-  if (!crashGraphLine) return;
-
-  // нормализуем множитель в [0, 1]
-  let progress = (crashCurrentMulti - 1) / (CRASH_VISUAL_MAX_MULTI - 1);
-  if (progress < 0) progress = 0;
-  if (progress > 1) progress = 1;
-
-  // чем больше progress — тем дальше вправо и выше «стрелка»
-  const scaleX = 0.05 + progress * 0.95; // по X от 0.05 до 1
-  const scaleY = 0.15 + progress * 0.85; // по Y от 0.15 до 1
-
-  crashGraphLine.style.transition = 'transform .18s ease-out';
-  crashGraphLine.style.transform = `scaleX(${scaleX}) scaleY(${scaleY})`;
-}
-
-function resetCrashVisuals() {
-  if (!crashGraphLine) return;
-  crashGraphLine.style.transition = 'transform .18s ease-out';
-  crashGraphLine.style.transform = 'scaleX(0.05) scaleY(0.15)';
-}
-
-// моментальное «падение вниз» при краше
-function crashDropAnimation() {
-  if (!crashGraphLine) return;
-  // резко повернём линию вниз
-  crashGraphLine.style.transition = 'transform .20s ease-in';
-  crashGraphLine.style.transform = 'scaleX(1) scaleY(-0.1)';
-}
-
-function scheduleNextRound() {
-  crashState = 'countdown';
-  resetCrashRound();
-
-  crashCountdown = 5;
-  crashStatusEl.textContent = `До следующего раунда ${crashCountdown}...`;
-
-  crashStartBtn.disabled = false;
-  crashCashoutBtn.disabled = true;
-
-  if (crashCountdownTimer) clearInterval(crashCountdownTimer);
-
-  // авто-ставка: автоматически "жмём старт" перед раундом
-  if (crashAutoBet && crashAutoBet.checked) {
-    joinNextRound(true);
-  }
-
-  crashCountdownTimer = setInterval(() => {
-    crashCountdown--;
-    if (crashCountdown > 0) {
-      crashStatusEl.textContent = `До следующего раунда ${crashCountdown}...`;
-    } else {
-      clearInterval(crashCountdownTimer);
-      crashCountdownTimer = null;
-      startCrashRound(); // запуск раунда
-    }
-  }, 1000);
-}
-
-/* Игрок жмёт СТАРТ во время отсчёта (вход в следующий раунд) */
-function joinNextRound(fromAuto = false) {
-  if (crashState !== 'countdown' || crashJoined) return;
-
-  const bet = getBetValue();
-  if (!bet) return;
-
-  if (bet > crashBalance) {
-    if (!fromAuto) {
-      crashStatusEl.textContent = 'Недостаточно демо-очков для входа в раунд';
-    }
-    return;
-  }
-
-  crashBalance -= bet;
-  crashCurrentBet = bet;
-  crashJoined = true;
-  updateCrashUI();
-
-  crashStatusEl.textContent = 'Ты в следующем раунде. Ожидаем старт...';
-  crashStartBtn.disabled = true; // уже в раунде, повторно жать нельзя
-}
-
-/* ===== САМ РАУНД (множитель растёт, может быть краш) ===== */
-function startCrashRound() {
-  crashState = 'running';
-
-  crashStatusEl.textContent =
-    crashJoined
-      ? 'Раунд идёт! Жми «ЗАБРАТЬ» до краша'
-      : 'Раунд идёт (наблюдение). Ты не успел войти, жди следующий раунд.';
-
-  crashStartBtn.disabled = true;
-  crashCashoutBtn.disabled = !crashJoined;
-
-  const crashAt = 1.5 + Math.random() * 8.5; // где случится краш
-
-  if (crashInterval) clearInterval(crashInterval);
-
-  crashInterval = setInterval(() => {
-    // увеличение множителя
-    crashCurrentMulti += 0.03 + crashCurrentMulti * 0.015;
-    updateCrashUI();
-    updateCrashGraph(); // анимация графика
-
-    // авто-выход
-    const autoEnabled = crashJoined && crashAutoCashoutCheck && crashAutoCashoutCheck.checked;
-    const autoValue = autoEnabled ? parseFloat(crashAutoCashout.value || '0') : 0;
-
-    if (autoEnabled && autoValue >= 1.1 && !crashCashedOut && crashCurrentMulti >= autoValue) {
-      cashoutCrash(true);
-    }
-
-    // крэш
-    if (crashCurrentMulti >= crashAt) {
-
-      crashDropAnimation(); // ← стрелка падает вниз
-
-      clearInterval(crashInterval);
-      crashInterval = null;
-      crashState = 'idle';
-
-      if (crashJoined && !crashCashedOut) {
-        crashStatusEl.textContent = 'Краш! Твои очки в этом раунде сгорели.';
-        addCrashLogLine(`Краш на ×${crashCurrentMulti.toFixed(2)} (−${crashCurrentBet} CR).`);
-      } else if (!crashJoined) {
-        crashStatusEl.textContent =
-          `Раунд завершён: ×${crashCurrentMulti.toFixed(2)}. Ждём следующий.`;
-        addCrashLogLine(
-          `Набрано ×${crashCurrentMulti.toFixed(2)} (ты был наблюдателем).`
-        );
-      } else if (crashCashedOut) {
-        crashStatusEl.textContent =
-          `Раунд завершён: ×${crashCurrentMulti.toFixed(2)}. Ты уже забрал ранее.`;
-      }
-
-      addCrashRound(crashCurrentMulti);
-
-      crashCashoutBtn.disabled = true;
-
-      // запуск следующего отсчёта
-      setTimeout(scheduleNextRound, 1000);
-    }
-
-  }, 80);
-}
+      
 
 
-/* Забрать во время раунда */
-function cashoutCrash(fromAuto = false) {
-  if (crashState !== 'running' || !crashJoined || crashCashedOut) return;
 
-  crashCashedOut = true;
-  crashCashoutBtn.disabled = true;
+/* ===== ROYAL MINES: переход между страницами ===== */
+const crashRoyalPage   = document.getElementById('crashRoyalPage');
+const chickenRoadPage  = document.getElementById('chickenRoadPage');
+const slotRoyalPage    = document.getElementById('slotRoyalPage');
 
-  const win = Math.round(crashCurrentBet * crashCurrentMulti);
-  crashBalance += win;
-  updateCrashUI();
+const minesRoyalPage   = document.getElementById('minesRoyalPage');
+const minesBackBtn     = document.getElementById('minesBackBtn');
+const minesCards       = document.querySelectorAll('[data-open-game="royal-mines"]');
 
-  crashStatusEl.textContent = `Ты забрал ×${crashCurrentMulti.toFixed(2)} и получил ${win} CR`;
-  addCrashLogLine(`Забрал ×${crashCurrentMulti.toFixed(2)} (+${win} CR).`);
-
-  // если включена автоигра и это НЕ авто-выход — на следующем отсчёте снова войдём
-  if (crashAutoBet && crashAutoBet.checked && !fromAuto) {
-    // ничего не делаем здесь — вступление произойдёт в scheduleNextRound()
-  }
-}
-
-/* === обработчики кнопок === */
-if (crashStartBtn) {
-  crashStartBtn.addEventListener('click', () => joinNextRound(false));
-}
-
-if (crashCashoutBtn) {
-  crashCashoutBtn.addEventListener('click', () => cashoutCrash(false));
-}
-
-crashStepBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    const step = parseInt(btn.dataset.step, 10) || 0;
-    const current = getBetValue();
-    let next = current + step;
-    if (next < 1) next = 1;
-    crashBetInput.value = next.toString();
-  });
-});
-
-crashQuickBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    const val = parseInt(btn.dataset.quick, 10) || 0;
-    if (!val) return;
-    crashBetInput.value = val.toString();
-  });
-});
-
-/* стартуем игру сразу с отсчётом до первого раунда */
-updateCrashUI();
-scheduleNextRound();
-
-// ===== CHICKEN ROAD: переключение экранов =====
-const chickenRoadPage = document.getElementById('chickenRoadPage');
-const chickenBackBtn  = document.getElementById('chickenBackBtn');
-const chickenCards    = document.querySelectorAll('[data-open-game="chicken-road"]');
-
-if (chickenRoadPage && chickenBackBtn && mainPage) {
-  chickenCards.forEach(card => {
+if (minesRoyalPage && minesBackBtn && mainPage) {
+  // открытие игры по клику на карточку
+  minesCards.forEach(card => {
     card.addEventListener('click', () => {
-      mainPage.style.display = 'none';
-      if (typeof profilePage !== 'undefined' && profilePage) {
-        profilePage.style.display = 'none';
-      }
-      chickenRoadPage.style.display = 'block';
+      // скрываем остальные страницы, если есть
+      if (profilePage)       profilePage.style.display = 'none';
+      if (crashRoyalPage)    crashRoyalPage.style.display = 'none';
+      if (slotRoyalPage)     slotRoyalPage.style.display = 'none';
+      if (chickenRoadPage)   chickenRoadPage.style.display = 'none';
+
+      mainPage.style.display       = 'none';
+      minesRoyalPage.style.display = 'block';
       window.scrollTo(0, 0);
     });
   });
 
-  chickenBackBtn.addEventListener('click', () => {
-    chickenRoadPage.style.display = 'none';
-    mainPage.style.display = 'block';
+  // кнопка "Назад в лобби"
+  minesBackBtn.addEventListener('click', () => {
+    minesRoyalPage.style.display = 'none';
+    mainPage.style.display       = 'block';
     window.scrollTo(0, 0);
   });
 }
 
-// ===== CHICKEN ROAD: логика =====
-const chickenBalanceEl   = document.getElementById('chickenBalance');
-const chickenBetInput    = document.getElementById('chickenBet');
-const chickenStatusEl    = document.getElementById('chickenStatus');
-const chickenPlayBtn     = document.getElementById('chickenPlayBtn');
-const chickenCashoutBtn  = document.getElementById('chickenCashoutBtn');
-const chickenLogEl       = document.getElementById('chickenLog');
-const chickenColumnsWrap = document.getElementById('chickenRoadColumns');
-const chickenStepBtns    = document.querySelectorAll('.chicken-step-btn');
-const chickenQuickBtns   = document.querySelectorAll('.chicken-quick-bet');
-const chickenDiffBtns    = document.querySelectorAll('.chicken-diff-btn');
+/* ========= ROYAL MINES: логика игры ========= */
 
-let chickenBalance      = 1000;
-let chickenCurrentBet   = 0;
-let chickenCurrentStep  = 0;
-let chickenBurnStep     = 0;
-let chickenRunning      = false;
-let chickenInterval     = null;
-let chickenCashedOut    = false;
-let chickenMode         = 'easy';
+const minesGridEl     = document.getElementById('minesGrid');
+const minesStatusEl   = document.getElementById('minesStatus');
+const minesBetInput   = document.getElementById('minesBet');
+const minesPlayBtn    = document.getElementById('minesPlayBtn');
+const minesCashoutBtn = document.getElementById('minesCashoutBtn');
 
-const chickenMultipliers = {
-  easy:   [1.23, 1.55, 1.98, 2.56, 3.36, 4.49, 5.49, 7.50],
-  medium: [1.35, 1.75, 2.30, 3.10, 4.20, 5.60, 7.80, 10.0],
-  hard:   [1.50, 2.10, 3.00, 4.40, 6.20, 8.50, 12.0, 18.0],
-};
 
-// перерисовка множителей на монетках
-function renderChickenMultipliers() {
-  if (!chickenColumnsWrap) return;
-  const cols = chickenColumnsWrap.querySelectorAll('.chicken-bg-col');
-  const arr  = chickenMultipliers[chickenMode];
+/* выбор мин */
+const minesCountDisplay = document.getElementById('minesCountDisplay');
+const minesMinesBtns    = document.querySelectorAll('.mines-mines-step');
 
-  cols.forEach((col, index) => {
-    const v = arr[index];
-    const span = col.querySelector('.chicken-multi-value');
-    if (!span) return;
+let minesRunning    = false;
+let minesOpened     = 0;
+let minesActiveBet  = 0;
+let minesMultiplier = 1.0;
 
-    if (typeof v === 'number') {
-      span.textContent = v.toFixed(2) + 'x';
-      col.style.visibility = 'visible';
-    } else {
-      span.textContent = '';
-      col.style.visibility = 'hidden';
+let minesBombs = [];
+let minesCells = [];
+
+/* размеры / количество мин */
+const MINES_SIZE = 25;      // 5x5
+let minesBombCount = 3;     // текущее число мин (по умолчанию 3)
+
+const MIN_MINES = 1;
+const MAX_MINES = 20;
+
+
+
+// начальное отображение кол-ва мин
+if (minesCountDisplay) {
+  minesCountDisplay.textContent = minesBombCount;
+}
+
+// кнопки -/+ мин
+minesMinesBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const step = parseInt(btn.dataset.minesStep, 10) || 0;
+
+    let next = minesBombCount + step;
+    if (next < MIN_MINES) next = MIN_MINES;
+    if (next > MAX_MINES) next = MAX_MINES;
+
+    minesBombCount = next;
+
+    if (minesCountDisplay) {
+      minesCountDisplay.textContent = minesBombCount;
+    }
+
+    if (!minesRunning) {
+      minesStatusEl.textContent = `Мины: ${minesBombCount}. Нажми «Играть».`;
     }
   });
+});
+
+/* Создание сетки 5x5 */
+function createMinesGrid() {
+  if (!minesGridEl) return;
+
+  minesGridEl.innerHTML = "";
+  minesCells = [];
+
+  for (let i = 0; i < MINES_SIZE; i++) {
+    const cell = document.createElement("div");
+    cell.className = "mines-cell";
+    cell.dataset.index = i;
+
+    cell.innerHTML = `
+      <img class="mines-img" src="img/mines/closed.png" alt="">
+    `;
+
+    minesCells.push(cell);
+    minesGridEl.appendChild(cell);
+  }
 }
 
-function updateChickenBalanceUI() {
-  if (chickenBalanceEl) chickenBalanceEl.textContent = chickenBalance.toString();
-}
-
-function addChickenLog(text) {
-  if (!chickenLogEl) return;
-  const div = document.createElement('div');
-  div.className = 'chicken-log-line';
-  div.textContent = text;
-  chickenLogEl.prepend(div);
-}
-
-function resetChickenColumns() {
-  if (!chickenColumnsWrap) return;
-  chickenColumnsWrap.querySelectorAll('.chicken-bg-col').forEach(col => {
-    col.classList.remove('active', 'burn', 'safe');
+/* Сброс сетки в закрытое состояние */
+function resetMinesGrid() {
+  minesCells.forEach(cell => {
+    const img = cell.querySelector(".mines-img");
+    if (img) img.src = "img/mines/closed.png";
+    cell.classList.remove("safe-glow");
   });
 }
 
-function getChickenBet() {
-  if (!chickenBetInput) return 0;
-  let bet = parseInt(chickenBetInput.value, 10);
-  if (isNaN(bet) || bet <= 0) bet = 10;
-  chickenBetInput.value = bet.toString();
-  return bet;
+/* Генерация мин */
+function generateMines() {
+  minesBombs = [];
+  while (minesBombs.length < minesBombCount) {
+    const r = Math.floor(Math.random() * MINES_SIZE);
+    if (!minesBombs.includes(r)) minesBombs.push(r);
+  }
 }
 
-function startChickenRound() {
-  if (chickenRunning) return;
+/* шаг множителя в зависимости от числа мин */
+function getMinesStepPerSafe() {
+  const minStep = 0.08; // 1 мина
+  const maxStep = 1.50; // 20 мин
+  const t = (minesBombCount - MIN_MINES) / (MAX_MINES - MIN_MINES); // 0..1
+  return minStep + (maxStep - minStep) * t;
+}
 
-  const bet = getChickenBet();
-  if (!bet) return;
+/* Запуск раунда */
+function startMinesRound() {
+  const bet = parseInt(minesBetInput.value) || 0;
 
-  if (bet > chickenBalance) {
-    chickenStatusEl.textContent = 'Недостаточно демо-очков для этого раунда';
+  if (bet < 1) {
+    minesStatusEl.textContent = "Минимальная ставка — 1";
     return;
   }
 
-  chickenBalance      -= bet;
-  chickenCurrentBet    = bet;
-  chickenCurrentStep   = 0;
-  chickenCashedOut     = false;
-  chickenRunning       = true;
+  if (bet > playerBalance) {
+    minesStatusEl.textContent = "Недостаточно средств";
+    return;
+  }
 
-  updateChickenBalanceUI();
-  resetChickenColumns();
+  changePlayerBalance(-bet);
 
-  // случайная "прожарка"
-  const maxStep = chickenMultipliers[chickenMode].length;
-  chickenBurnStep = 1 + Math.floor(Math.random() * maxStep);
+  minesActiveBet  = bet;
+  minesOpened     = 0;
+  minesMultiplier = 1.0;
+  minesRunning    = true;
 
-  chickenStatusEl.textContent = 'Курица побежала! Жми «Забрать» пока не прожарили 🐔';
-  chickenPlayBtn.disabled    = true;
-  chickenCashoutBtn.disabled = false;
+  minesPlayBtn.disabled    = true;
+  minesCashoutBtn.disabled = false;
 
-  const cols = chickenColumnsWrap.querySelectorAll('.chicken-bg-col');
+  generateMines();
+  resetMinesGrid();
 
-  chickenInterval = setInterval(() => {
-    chickenCurrentStep++;
+  minesStatusEl.textContent = "Открывай клетки!";
+}
 
-    // прожарка
-    if (chickenCurrentStep === chickenBurnStep) {
-      clearInterval(chickenInterval);
-      chickenInterval = null;
-      chickenRunning  = false;
+/* универсальная функция открытия всех клеток */
+function revealAllMines() {
+  minesCells.forEach((cell, i) => {
+    const img = cell.querySelector(".mines-img");
+    if (!img) return;
 
-      cols.forEach(col => col.classList.remove('active'));
-      const burnCol = chickenColumnsWrap.querySelector(`.chicken-bg-col[data-step="${chickenCurrentStep}"]`);
-      if (burnCol) burnCol.classList.add('burn');
+    const isBomb    = minesBombs.includes(i);
+    const targetSrc = isBomb ? "img/mines/bomb.png" : "img/mines/safe.png";
+    const delay     = i * 40;
 
-      chickenStatusEl.textContent = 'Курицу поджарили! Очки в этом раунде сгорели.';
-      addChickenLog(`Прожарка на шаге ${chickenCurrentStep} (−${chickenCurrentBet} CR).`);
+    setTimeout(() => {
+      img.classList.add("flip");
 
-      chickenPlayBtn.disabled    = false;
-      chickenCashoutBtn.disabled = true;
+      setTimeout(() => {
+        img.src = targetSrc;
+        if (!isBomb) cell.classList.add("safe-glow");
+      }, 90);
+
+      setTimeout(() => {
+        img.classList.remove("flip");
+      }, 180);
+    }, delay);
+  });
+}
+
+/* Клик по клетке с анимацией */
+if (minesGridEl) {
+  minesGridEl.addEventListener("click", (e) => {
+    if (!minesRunning) return;
+
+    const cell = e.target.closest(".mines-cell");
+    if (!cell) return;
+
+    const img   = cell.querySelector(".mines-img");
+    const index = parseInt(cell.dataset.index);
+    if (!img) return;
+
+    if (!img.src.includes("closed")) return; // уже открыта
+
+    img.classList.add("flip");
+    const half = 90;
+    const full = 180;
+
+    // БОМБА
+    if (minesBombs.includes(index)) {
+      setTimeout(() => {
+        img.src = "img/mines/bomb.png";
+      }, half);
+
+      setTimeout(() => {
+        img.classList.remove("flip");
+        endMinesRound(false);
+      }, full);
+
       return;
     }
 
-    // безопасный шаг
-    cols.forEach(col => col.classList.remove('active'));
-    const safeCol = chickenColumnsWrap.querySelector(`.chicken-bg-col[data-step="${chickenCurrentStep}"]`);
-    if (safeCol) {
-      safeCol.classList.add('active');
-      // все предыдущие — safe
-      for (let i = 1; i < chickenCurrentStep; i++) {
-        const prev = chickenColumnsWrap.querySelector(`.chicken-bg-col[data-step="${i}"]`);
-        prev && prev.classList.add('safe');
-      }
-    }
-
-    const multi = chickenMultipliers[chickenMode][chickenCurrentStep - 1];
-    chickenStatusEl.textContent = `Текущий множитель: ×${multi.toFixed(2)}. Можно забрать или ждать дальше.`;
-
-    // дошли до конца и выжили
-    const maxStepInner = chickenMultipliers[chickenMode].length;
-    if (chickenCurrentStep >= maxStepInner) {
-      clearInterval(chickenInterval);
-      chickenInterval = null;
-      chickenRunning  = false;
-      chickenCashout(true); // авто-забор
-    }
-  }, 900);
-}
-
-function chickenCashout(fromAuto = false) {
-  if (!chickenRunning || chickenCurrentStep === 0 || chickenCashedOut) return;
-
-  clearInterval(chickenInterval);
-  chickenInterval = null;
-  chickenRunning  = false;
-  chickenCashedOut= true;
-
-  const multi = chickenMultipliers[chickenMode][chickenCurrentStep - 1];
-  const win   = Math.round(chickenCurrentBet * multi);
-
-  chickenBalance += win;
-  updateChickenBalanceUI();
-
-  // подсветить безопасные клетки
-  for (let i = 1; i <= chickenCurrentStep; i++) {
-    const c = chickenColumnsWrap.querySelector(`.chicken-bg-col[data-step="${i}"]`);
-    c && c.classList.add('safe');
-  }
-
-  chickenStatusEl.textContent = `Ты забрал ×${multi.toFixed(2)} и получил ${win} CR`;
-  addChickenLog(`Забрал ×${multi.toFixed(2)} (+${win} CR).`);
-
-  chickenPlayBtn.disabled    = false;
-  chickenCashoutBtn.disabled = true;
-}
-
-if (chickenPlayBtn && chickenCashoutBtn) {
-  chickenPlayBtn.addEventListener('click', startChickenRound);
-  chickenCashoutBtn.addEventListener('click', () => chickenCashout(false));
-}
-
-// +/- и быстрые кнопки
-chickenStepBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    const step    = parseInt(btn.dataset.step, 10) || 0;
-    const current = getChickenBet();
-    let next      = current + step;
-    if (next < 1) next = 1;
-    chickenBetInput.value = next.toString();
-  });
-});
-
-chickenQuickBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    const val = parseInt(btn.dataset.quick, 10) || 0;
-    if (!val) return;
-    chickenBetInput.value = val.toString();
-  });
-});
-
-// переключение сложности
-chickenDiffBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    chickenDiffBtns.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    chickenMode = btn.dataset.mode || 'easy';
-    renderChickenMultipliers();
-    chickenStatusEl.textContent =
-      'Сложность изменена. Нажми «Играть», чтобы начать раунд.';
-  });
-});
-
-updateChickenBalanceUI();
-renderChickenMultipliers();
-
-// ===== SLOT ROYAL SPIN: переключение экранов =====
-const slotRoyalPage = document.getElementById('slotRoyalPage');
-const slotBackBtn   = document.getElementById('slotBackBtn');
-const slotCards     = document.querySelectorAll('[data-open-game="slot-royal"]');
-
-if (slotRoyalPage && slotBackBtn && mainPage) {
-  slotCards.forEach(card => {
-    card.addEventListener('click', () => {
-      // скрыть другие страницы, если есть
-      if (typeof profilePage !== 'undefined' && profilePage) profilePage.style.display = 'none';
-      if (typeof crashRoyalPage !== 'undefined' && crashRoyalPage) crashRoyalPage.style.display = 'none';
-      if (typeof chickenRoadPage !== 'undefined' && chickenRoadPage) chickenRoadPage.style.display = 'none';
-
-      mainPage.style.display = 'none';
-      slotRoyalPage.style.display = 'block';
-      window.scrollTo(0, 0);
-    });
-  });
-
-  slotBackBtn.addEventListener('click', () => {
-    slotRoyalPage.style.display = 'none';
-    mainPage.style.display = 'block';
-    window.scrollTo(0, 0);
-  });
-}
-
-
-// ===== SLOT ROYAL SPIN: логика =====
-// ===== SLOT ROYAL SPIN: логика =====
-const slotBalanceEl = document.getElementById('slotBalance');
-const slotBetInput  = document.getElementById('slotBet');
-const slotSpinBtn   = document.getElementById('slotSpinBtn');
-// const slotStatusEl  = document.getElementById('slotStatus'); // БОЛЬШЕ НЕ НУЖЕН
-const slotLogEl     = document.getElementById('slotLog');
-const slotReelsEl   = document.getElementById('slotReels');
-const slotStepBtns  = document.querySelectorAll('.slot-step-btn');
-const slotQuickBtns = document.querySelectorAll('.slot-quick-bet');
-const slotBetDisplayEl = document.getElementById('slotBetDisplay');
-const slotMinMaxBtns   = document.querySelectorAll('.slot-bet-minmax');
-
-const SLOT_MIN_BET = 1;
-const SLOT_MAX_BET = 1000;
-
-const SLOT_ROWS = 3;
-const SLOT_COLS = 5;
-
-let slotBalance  = 1000;
-let slotSpinning = false;
-
-// матрица 3×5 текущего спина
-let slotMatrix = Array.from({ length: SLOT_ROWS }, () =>
-  Array(SLOT_COLS).fill(null)
-);
-
-// символы
-const slotSymbols = [
-  { id: 'A', img: 'symbols/cherry.png',   pay: {3: 20, 4: 40, 5: 80},   weight: 6 },
-  { id: 'B', img: 'symbols/lemon.png',    pay: {3: 15, 4: 30, 5: 60},   weight: 7 },
-  { id: 'C', img: 'symbols/grape.png',    pay: {3: 25, 4: 50, 5: 100},  weight: 5 },
-  { id: 'D', img: 'symbols/diamond.png',  pay: {3: 40, 4: 80, 5: 150},  weight: 3 },
-  { id: 'E', img: 'symbols/crown.png',    pay: {3: 60, 4: 150, 5: 300}, weight: 2 },
-];
-
-function updateSlotBalanceUI() {
-  if (slotBalanceEl) slotBalanceEl.textContent = slotBalance.toString();
-}
-
-function addSlotLog(text) {
-  if (!slotLogEl) return;
-  const div = document.createElement('div');
-  div.className = 'slot-log-line';
-  div.textContent = text;
-  slotLogEl.prepend(div);
-}
-
-function setSlotBet(value) {
-  let bet = Number(value) || 0;
-  if (bet < SLOT_MIN_BET) bet = SLOT_MIN_BET;
-  if (bet > SLOT_MAX_BET) bet = SLOT_MAX_BET;
-
-  if (slotBetInput) slotBetInput.value = bet.toString();
-  if (slotBetDisplayEl) slotBetDisplayEl.textContent = bet.toFixed(0);
-}
-
-function getSlotBet() {
-  if (!slotBetInput) return 0;
-  let bet = parseInt(slotBetInput.value, 10);
-  if (isNaN(bet) || bet <= 0) bet = SLOT_MIN_BET;
-  setSlotBet(bet);
-  return bet;
-}
-
-// случайный символ с учётом веса
-function getRandomSymbol() {
-  const totalWeight = slotSymbols.reduce((sum, s) => sum + s.weight, 0);
-  let rnd = Math.random() * totalWeight;
-  for (const s of slotSymbols) {
-    if (rnd < s.weight) return s;
-    rnd -= s.weight;
-  }
-  return slotSymbols[0];
-}
-
-// рисуем один барабан по матрице
-function renderReelFromMatrix(reelIndex) {
-  const reelEl = slotReelsEl.querySelector(`.slot-reel[data-reel="${reelIndex}"]`);
-  if (!reelEl) return;
-  const symbolsEls = reelEl.querySelectorAll('.slot-symbol');
-  symbolsEls.forEach(symEl => symEl.classList.remove('slot-symbol-win'));
-
-  for (let row = 0; row < SLOT_ROWS; row++) {
-    const sym = slotMatrix[row][reelIndex];
-    const cell = reelEl.querySelector(`.slot-symbol[data-row="${row}"]`);
-    if (cell && sym) {
-      cell.innerHTML = `<img src="${sym.img}" alt="">`;
-    }
-  }
-}
-
-// подсветка выигрыша по средней линии
-function highlightWinOnMiddle(count) {
-  const rowIndex = 1; // средний ряд
-  for (let col = 0; col < count; col++) {
-    const reelEl = slotReelsEl.querySelector(`.slot-reel[data-reel="${col}"]`);
-    if (!reelEl) continue;
-    const cell = reelEl.querySelector(`.slot-symbol[data-row="${rowIndex}"]`);
-    if (cell) cell.classList.add('slot-symbol-win');
-  }
-}
-
-// анимация спина — барабан за барабаном
-function spinSlot() {
-  if (slotSpinning) return;
-
-  const bet = getSlotBet();
-  if (!bet) return;
-
-  if (bet > slotBalance) {
-    addSlotLog('Недостаточно баланса для спина.');
-    return;
-  }
-
-  slotBalance -= bet;
-  updateSlotBalanceUI();
-
-  slotSpinning = true;
-  slotSpinBtn.disabled = true;
-
-  // сброс матрицы
-  slotMatrix = Array.from({ length: SLOT_ROWS }, () =>
-    Array(SLOT_COLS).fill(null)
-  );
-
-  let reelsStopped = 0;
-
-  for (let col = 0; col < SLOT_COLS; col++) {
-    startReelSpin(col, 200 * col); // задержка для поочерёдной остановки
-  }
-
-  function startReelSpin(col, delay) {
-    const reelEl = slotReelsEl.querySelector(`.slot-reel[data-reel="${col}"]`);
-    if (!reelEl) return;
-
-    const cells = reelEl.querySelectorAll('.slot-symbol');
-    reelEl.classList.add('slot-reel-spinning');
-
-    let frames = 10;
-    const interval = setInterval(() => {
-      cells.forEach(cell => {
-        const randSym = getRandomSymbol();
-        cell.innerHTML = `<img src="${randSym.img}" alt="">`;
-      });
-      frames--;
-      if (frames <= 0) {
-        clearInterval(interval);
-      }
-    }, 60);
+    // БЕЗОПАСНАЯ
+    setTimeout(() => {
+      img.src = "img/mines/safe.png";
+      cell.classList.add("safe-glow");
+    }, half);
 
     setTimeout(() => {
-      clearInterval(interval);
+      img.classList.remove("flip");
+    }, full);
 
-      // финальные символы для трёх рядов
-      for (let row = 0; row < SLOT_ROWS; row++) {
-        slotMatrix[row][col] = getRandomSymbol();
-      }
-      renderReelFromMatrix(col);
-      reelEl.classList.remove('slot-reel-spinning');
+    minesOpened++;
 
-      reelsStopped++;
-      if (reelsStopped >= SLOT_COLS) {
-        // все барабаны остановились — считаем выигрыш
-        finishSlotSpin(bet);
-      }
-    }, 600 + delay);
-  }
+    const step = getMinesStepPerSafe();
+    minesMultiplier += step;
+
+    minesStatusEl.textContent = `×${minesMultiplier.toFixed(2)} — продолжай!`;
+
+    if (minesOpened >= MINES_SIZE - minesBombCount) {
+      endMinesRound(true);
+    }
+  });
 }
 
-function finishSlotSpin(bet) {
-  // считаем только среднюю линию (row 1)
-  const rowIndex = 1;
-  const row = slotMatrix[rowIndex];
+/* Конец раунда */
+function endMinesRound(win) {
+  minesRunning = false;
 
-  const first = row[0];
-  let count = 1;
-  for (let c = 1; c < row.length; c++) {
-    if (row[c].id === first.id) {
-      count++;
-    } else {
-      break;
-    }
-  }
+  revealAllMines();
 
-  let win = 0;
-  const payTable = first.pay || {};
-  if (count >= 3 && payTable[count]) {
-    win = bet * (payTable[count] / 10);
-    highlightWinOnMiddle(count);
-  }
-
-  if (win > 0) {
-    slotBalance += win;
-    updateSlotBalanceUI();
-    addSlotLog(`Выигрыш ${win} CR (символ ${first.id} ×${count})`);
+  if (win) {
+    const prize = Math.round(minesActiveBet * minesMultiplier);
+    changePlayerBalance(prize);
+    minesStatusEl.textContent = `Вы выиграли ${prize} CR`;
   } else {
-    addSlotLog('Спин без выигрыша.');
+    minesStatusEl.textContent = "Бомба! Проигрыш.";
   }
 
-  slotSpinning = false;
-  slotSpinBtn.disabled = false;
+  minesPlayBtn.disabled    = false;
+  minesCashoutBtn.disabled = true;
 }
 
-if (slotSpinBtn) {
-  slotSpinBtn.addEventListener('click', spinSlot);
+/* Забрать (cashout) */
+if (minesCashoutBtn) {
+  minesCashoutBtn.addEventListener("click", () => {
+    if (!minesRunning) return;
+
+    const prize = Math.round(minesActiveBet * minesMultiplier);
+    changePlayerBalance(prize);
+
+    minesStatusEl.textContent =
+      `Забрал ×${minesMultiplier.toFixed(2)} = ${prize} CR`;
+
+    minesRunning = false;
+    minesPlayBtn.disabled    = false;
+    minesCashoutBtn.disabled = true;
+
+    revealAllMines();
+  });
 }
 
-// быстрые ставки
-slotQuickBtns.forEach(btn => {
+/* Кнопка "Играть" */
+if (minesPlayBtn) {
+  minesPlayBtn.addEventListener("click", startMinesRound);
+}
+
+/* Стартуем сетку один раз при загрузке */
+createMinesGrid();
+
+/* шаги +/- и быстрые ставки */
+document.querySelectorAll('.mines-step').forEach(btn => {
   btn.addEventListener('click', () => {
-    const val = parseFloat(btn.dataset.quick || '0');
-    if (!val) return;
-    setSlotBet(val);
+    const step    = parseInt(btn.dataset.step, 10) || 0;
+    const current = parseInt(minesBetInput.value) || 0;
+    const next    = Math.max(1, current + step);
+    minesBetInput.value = next;
   });
 });
 
-// MIN / MAX
-slotMinMaxBtns.forEach(btn => {
+document.querySelectorAll('.mines-quick').forEach(btn => {
   btn.addEventListener('click', () => {
-    const role = btn.dataset.role;
-    if (role === 'min') {
-      setSlotBet(SLOT_MIN_BET);
-    } else if (role === 'max') {
-      const maxByBalance = Math.max(SLOT_MIN_BET, Math.min(SLOT_MAX_BET, slotBalance));
-      setSlotBet(maxByBalance);
+    const val = parseInt(btn.dataset.quick, 10) || 0;
+    if (val > 0) {
+      minesBetInput.value = val;
     }
   });
 });
 
-updateSlotBalanceUI();
-setSlotBet(10);
+
+
+
 
 
 
