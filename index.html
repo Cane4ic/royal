@@ -2782,14 +2782,11 @@
 
 /* верхняя строка с балансом/статусом */
 .mines-header {
-  width: 100%;
-  max-width: 420px;
-  display:flex;
-  justify-content:space-between;
+  display: flex;
   align-items: center;
-  color:#F7A600;
-  margin-bottom:15px;
-  font-size:18px;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
 }
 
 /* СЕТКА 5×5, всегда 5 колонок */
@@ -2799,7 +2796,7 @@
   gap: 6px;
   width: 100%;
   max-width: 420px;
-  margin-top: 10px;
+  margin-top: 0px;
 }
 
 /* 3D-эффект клетки */
@@ -3184,6 +3181,501 @@
   color: #f7a600;
   font-size: 16px;
 }
+
+/* Вся игра в одной карте */
+.mines-game-frame {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  background: #090909;
+  border-radius: 20px;
+  padding: 12px 12px 14px;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.9);
+  border: 1px solid #262626;
+}
+
+/* верхняя панель */
+.mines-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.mines-status {
+  display: none !important;
+}
+
+
+/* правая часть верхней панели */
+.mines-header-right {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+/* маленький прямоугольник с названием */
+.mines-title-box {
+  font-size: 20px;
+  font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+/* кнопка "Как играть?" */
+.mines-how-btn {
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid #303030;
+  background: #181818;
+  color: #f5f5f5;
+  font-size: 13px;
+  cursor: pointer;
+}
+.mines-how-btn:hover {
+  background: #222222;
+}
+
+/* бургер */
+.mines-menu-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 10px;
+  border: 1px solid #303030;
+  background: #181818;
+  color: #f5f5f5;
+  font-size: 16px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* дропдаун бургера */
+.mines-menu-wrapper {
+  position: relative;
+}
+
+.mines-menu-dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  min-width: 180px;
+  background: #101010;
+  border-radius: 12px;
+  border: 1px solid #303030;
+  padding: 4px 0;
+  display: none;
+  z-index: 30;
+  box-shadow: 0 14px 30px rgba(0,0,0,0.9);
+}
+
+.mines-menu-dropdown.open {
+  display: block;
+}
+
+.mines-menu-item {
+ width: 100%;
+  border: none;
+  background: transparent;
+  padding: 7px 12px;
+  font-size: 13px;
+  color: #f0f0f0;
+  cursor: pointer;
+  display: flex;              /* иконка + текст в одну линию */
+  align-items: center;
+  gap: 8px;
+}
+.mines-menu-item:hover {
+  background: #181818;
+}
+
+/* игра и панель ставок внутри рамки */
+.mines-grid {
+  margin-top: 4px;
+}
+
+.mines-controls {
+  margin-top: 12px;
+}
+
+/* модалка "Как играть?" */
+.mines-how-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 80;
+}
+
+.mines-how-overlay.open {
+  display: flex;
+}
+
+.mines-how-modal {
+  width: min(420px, 100% - 32px);
+  background: #101010;
+  border-radius: 18px;
+  padding: 18px 20px 16px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.9);
+  position: relative;
+}
+
+.mines-how-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.mines-how-text {
+  font-size: 14px;
+  color: #cccccc;
+  line-height: 1.5;
+}
+
+.mines-how-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  border: none;
+  background: #222;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* правая часть верхней панели растягивается */
+.mines-header-right {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;              /* забираем свободное место */
+}
+
+/* заголовок Royal Mines как текст слева, без рамки */
+.mines-title-box {
+  padding: 0;
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap;
+
+  margin-right: auto;   /* толкаем "Как играть?" и бургер вправо */
+}
+
+/* статус можно сделать чуть менее заметным */
+.mines-status {
+  font-size: 13px;
+  color: #f7a600;
+  min-height: 20px;
+  display: flex;
+  align-items: center;
+}
+
+/* Блок ставки */
+.mines-bet-block {
+  margin-bottom: 14px;
+}
+
+.mines-bet-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #0f0f0f;
+  border-radius: 14px;
+  padding: 8px;
+  box-shadow:
+    0 0 0 1px #191919,
+    0 6px 14px rgba(0,0,0,0.8);
+}
+
+.mines-bet-minmax {
+  min-width: 60px;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 0;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  background: #1b1b1b;
+  color: #f5f5f5;
+  box-shadow:
+    0 0 0 1px #000,
+    inset 0 1px 2px rgba(255,255,255,0.08),
+    inset 0 -3px 6px rgba(0,0,0,0.8);
+  transition: transform 0.08s, box-shadow 0.08s, background 0.08s;
+}
+
+.mines-bet-minmax:hover {
+  background: #242424;
+}
+
+.mines-bet-minmax:active {
+  transform: translateY(1px);
+  box-shadow:
+    0 0 0 1px #000,
+    inset 0 0 1px rgba(255,255,255,0.05),
+    inset 0 -1px 2px rgba(0,0,0,0.9);
+}
+
+.mines-bet-value {
+  flex: 1;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.mines-bet-value span {
+  font-variant-numeric: tabular-nums;
+}
+
+.mines-bet-quick-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+/* скрытый инпут, чтобы не мешал верстке */
+.mines-bet-hidden {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+}
+
+
+/* блок количества мин */
+.mines-bombs-block {
+  margin-bottom: 12px;
+}
+
+.mines-bombs-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+
+.mines-bombs-btn {
+  flex: 1;
+  min-width: 60px;
+  border-radius: 10px;
+  border: none;
+  padding: 7px 0;
+  font-size: 14px;
+  cursor: pointer;
+  background: #161616;
+  color: #f0f0f0;
+  box-shadow:
+    0 0 0 1px #000,
+    inset 0 2px 3px rgba(255,255,255,0.03),
+    inset 0 -3px 6px rgba(0,0,0,0.7);
+  transition: background 0.08s, transform 0.08s, box-shadow 0.08s;
+}
+
+.mines-bombs-btn:hover {
+  background: #1f1f1f;
+}
+
+.mines-bombs-btn:active {
+  transform: translateY(1px);
+  box-shadow:
+    0 0 0 1px #000,
+    inset 0 1px 2px rgba(255,255,255,0.01),
+    inset 0 -1px 2px rgba(0,0,0,0.9);
+}
+
+.mines-bombs-btn.active {
+  background: linear-gradient(135deg, #f3b712);
+  color: #ffffff;
+  box-shadow:
+    0 0 0 1px #f3b712
+    0 6px 14px #f3b712
+}
+
+.mines-bombs-btn-custom {
+  flex: 0 0 100%;   /* занимает всю строку внутри .mines-bombs-row */
+  max-width: 100%;
+  font-size: 14px;
+}
+
+/* чуть подправим нижние кнопки, чтобы они были ближе к панели */
+.mines-row-main {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+/* Лента коэффициентов */
+.mines-mults-strip {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  gap: 6px !important;
+  overflow-x: auto !important;
+  white-space: nowrap !important;
+  
+
+.mines-mults-strip::-webkit-scrollbar {
+  height: 4px;
+}
+}
+
+.mines-mults-strip::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.mines-mults-strip::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 999px;
+}
+
+/* «пилюля» с коэффициентом */
+.mines-mult-pill {
+  flex: 0 0 auto;
+  min-width: 60px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid #303030;
+  background: #101010;
+  text-align: center;
+  font-size: 12px;
+  color: #f0f0f0;
+  font-variant-numeric: tabular-nums;
+}
+
+/* текущий коэффициент */
+.mines-mult-pill.current {
+  border-color: #f3b712;
+  color: #f3b712;
+  box-shadow: 0 0 10px rgba(243, 183, 18, 0.6);
+}
+
+.mines-alert {
+  margin-bottom: 4px;
+  font-size: 13px;
+  color: #ff4c4c;
+  text-align: left;
+  min-height: 18px;
+  display: none;
+}
+
+.mines-alert.show {
+  display: block;
+}
+
+/* Полностью прячем статус Royal Mines */
+.mines-status {
+  display: none !important;
+}
+
+/* Верхнее уведомление */
+.top-toast {
+  position: fixed;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ff3030;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  z-index: 9999;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  opacity: 0;
+  transition: top 0.35s ease, opacity 0.35s ease;
+}
+
+/* Когда активно */
+.top-toast.show {
+  top: 15px;
+  opacity: 1;
+}
+
+.mines-header {
+  align-items: center !important;  /* центрируем по вертикали */
+  margin-bottom: 2px !important;   /* уменьшить отступ вниз */
+}
+
+@media (max-width: 480px) {
+  #minesRoyalPage .mines-header {
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 6px;
+    margin-bottom: 2px !important;
+  }
+}
+
+.mines-mults-strip {
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+}
+
+.mines-menu-icon {
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mines-menu-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+#gameLoaderOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.85);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  color: #fff;
+  font-size: 18px;
+  letter-spacing: 1px;
+}
+
+/* Кружок загрузки */
+.game-loader-spinner {
+  width: 45px;
+  height: 45px;
+  border: 4px solid #fff;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+  margin-bottom: 12px;
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+
+.game-loader-text {
+  font-size: 17px;
+  opacity: 0.9;
+}
+
 
   </style>
 </head>
@@ -4330,78 +4822,128 @@
   <button class="profile-back-btn" id="minesBackBtn">← Назад в лобби</button>
 
   <section class="mines-wrapper">
+    <!-- ВЕСЬ БЛОК ИГРЫ В ОДНОЙ КАРТЕ -->
+    <div class="mines-game-frame">
+      <div class="mines-alert" id="minesAlert"></div>
+      <!-- ВЕРХНЯЯ ПАНЕЛЬ -->
+      <div class="mines-header">
+  <!-- слева: название игры -->
+  <div class="mines-title-box">Royal Mines</div>
 
-  <!-- верхняя панель -->
-  <div class="mines-header">
-  <div class="mines-status" id="minesStatus">Royal Mines</div>
+  <!-- справа: статус + кнопки -->
+  <div class="mines-header-right mines-menu-wrapper">
+    <div class="mines-status" id="minesStatus">Нажми «Играть»</div>
+
+    <button class="mines-how-btn" id="minesHowBtn">Как играть?</button>
+    <button class="mines-menu-btn" id="minesMenuBtn">☰</button>
+
+    <div class="mines-menu-dropdown" id="minesMenuDropdown">
+  <button class="mines-menu-item" data-action="sound">
+    <span class="mines-menu-icon">
+      <img src="icons/sound-on.png" alt="">
+    </span>
+    <span class="mines-menu-label">Звук: вкл</span>
+  </button>
+
+  <button class="mines-menu-item" data-action="music">
+    <span class="mines-menu-icon">
+      <img src="icons/music-off.png" alt="">
+    </span>
+    <span class="mines-menu-label">Музыка: выкл</span>
+  </button>
+
+  <button class="mines-menu-item" data-action="rules">
+    <span class="mines-menu-icon">
+      <img src="icons/info.png" alt="">
+    </span>
+    <span class="mines-menu-label">Правила</span>
+  </button>
 </div>
+  </div>
+</div>
+<div class="mines-mults-strip" id="minesMultStrip"></div>
 
-  <!-- игровое поле 5×5 -->
-  <div class="mines-grid" id="minesGrid"></div>
+      <!-- игровое поле 5×5 -->
+      <div class="mines-grid" id="minesGrid"></div>
 
-  <!-- ПАНЕЛЬ СТАВОК ПОД ПОЛЕМ -->
-  <div class="mines-controls">
-    <div class="mines-card">
-      <!-- ВЕРХНЯЯ СТРОКА -->
-      <div class="mines-row-top">
-        <!-- ЛЕВО: СТАВКА -->
-        <div class="mines-field">
-          <div class="mines-label">Ставка</div>
-          <div class="mines-bet-input-wrap">
-            <span class="mines-bet-currency">CR</span>
-            <input id="minesBet" type="number" value="10" min="1" step="1">
-          </div>
-        </div>
+      <!-- ПАНЕЛЬ СТАВОК ПОД ПОЛЕМ -->
+      <div class="mines-controls">
+        <div class="mines-card">
+  <!-- Блок СТАВКИ -->
+  <div class="mines-bet-block">
+    <div class="mines-label">Ставка</div>
 
-        <!-- СЕРЕДИНА: МИНЫ -->
-        <div class="mines-field mines-field-small">
-          <div class="mines-label">Мины</div>
-          <div class="mines-mines-wrap">
-            <button class="mines-mines-step" data-mines-step="-1">−</button>
-            <span id="minesCountDisplay">3</span>
-            <button class="mines-mines-step" data-mines-step="1">+</button>
-          </div>
-        </div>
+    <div class="mines-bet-main">
+      <button class="mines-bet-minmax" data-role="min">MIN</button>
 
-        <!-- ПРАВО: + / - -->
-        <div class="mines-field mines-field-small">
-          <div class="mines-label">Изменить</div>
-          <div class="mines-step-wrap">
-            <button class="mines-step" data-step="-10">−10</button>
-            <button class="mines-step" data-step="+10">+10</button>
-          </div>
-        </div>
+      <div class="mines-bet-value">
+        <span id="minesBetDisplay">10</span> CR
       </div>
 
-      <!-- БЫСТРЫЕ СТАВКИ -->
-      <div class="mines-row-quick">
-        <span class="mines-label">Быстрая ставка</span>
-        <div class="mines-quick-wrap">
-          <button class="mines-quick" data-quick="10">10</button>
-          <button class="mines-quick" data-quick="50">50</button>
-          <button class="mines-quick" data-quick="100">100</button>
-          <button class="mines-quick" data-quick="250">250</button>
-        </div>
-      </div>
+      <button class="mines-bet-minmax" data-role="max">MAX</button>
+    </div>
 
-      <!-- НИЖНИЕ КНОПКИ -->
-      <div class="mines-row-main">
-        <button id="minesPlayBtn" class="mines-main-btn">Играть</button>
-        <button id="minesCashoutBtn"
-                class="mines-main-btn mines-main-btn-secondary"
-                disabled>
-          Забрать
-        </button>
-      </div>
+    <div class="mines-bet-quick-row">
+      <button class="mines-quick" data-quick="10">10</button>
+      <button class="mines-quick" data-quick="50">50</button>
+      <button class="mines-quick" data-quick="100">100</button>
+    </div>
+
+    <!-- скрытый инпут, из которого берёт ставку логика игры -->
+    <input id="minesBet"
+           type="number"
+           value="10"
+           min="1"
+           step="1"
+           class="mines-bet-hidden">
+  </div>
+
+  <!-- Блок КОЛИЧЕСТВО МИН -->
+  <div class="mines-bombs-block">
+    <div class="mines-label">Количество мин</div>
+    <div class="mines-bombs-row">
+      <button class="mines-bombs-btn active" data-bombs="3">3</button>
+      <button class="mines-bombs-btn" data-bombs="5">5</button>
+      <button class="mines-bombs-btn" data-bombs="10">10</button>
+      <button class="mines-bombs-btn" data-bombs="24">24</button>
+      <button class="mines-bombs-btn mines-bombs-btn-custom" data-bombs="custom">✎</button>
     </div>
   </div>
 
-  
+  <!-- НИЖНИЕ КНОПКИ -->
+  <div class="mines-row-main">
+    <button id="minesPlayBtn" class="mines-main-btn">Играть</button>
+    <button id="minesCashoutBtn"
+            class="mines-main-btn mines-main-btn-secondary"
+            disabled>
+      Забрать
+    </button>
+  </div>
+</div>
 
-</section>
+            </div>
 
+           
 
+    </div>
+  </section>
 </main>
+
+<div class="mines-how-overlay" id="minesHowOverlay">
+  <div class="mines-how-modal">
+    <button class="mines-how-close" id="minesHowClose">×</button>
+    <div class="mines-how-title">Как играть в Royal Mines</div>
+    <div class="mines-how-text">
+      <ol style="padding-left:18px; margin:0;">
+        <li>Выберите ставку и количество мин.</li>
+        <li>Нажмите «Играть» — на поле случайно размещаются мины.</li>
+        <li>Открывайте клетки. Безопасные клетки увеличивают множитель выигрыша.</li>
+        <li>В любой момент можете нажать «Забрать», чтобы зафиксировать текущий выигрыш.</li>
+        <li>Если откроете клетку с миной — ставка сгорает и раунд заканчивается.</li>
+      </ol>
+    </div>
+  </div>
+</div>
 
 
   <script>
@@ -4815,8 +5357,30 @@ if (promoSlider) {
     }
 
 
+const crashRoyalPage   = document.getElementById('crashRoyalPage');
+const chickenRoadPage  = document.getElementById('chickenRoadPage');
+const slotRoyalPage    = document.getElementById('slotRoyalPage');
+const minesRoyalPage   = document.getElementById('minesRoyalPage');
+const gameLoaderOverlay = document.getElementById('gameLoaderOverlay');
 
 
+function showOnlyPage(pageEl) {
+  const pages = [
+    mainPage,
+    profilePage,
+    crashRoyalPage,
+    chickenRoadPage,
+    slotRoyalPage,
+    minesRoyalPage
+  ];
+
+  pages.forEach(p => {
+    if (!p) return;
+    p.style.display = (p === pageEl) ? 'block' : 'none';
+  });
+
+  window.scrollTo(0, 0);
+}
 
         // ===== ПЕРЕХОД В ЛИЧНЫЙ КАБИНЕТ =====
     const mainPage = document.getElementById('mainPage');
@@ -4825,20 +5389,17 @@ if (promoSlider) {
     const profileBackBtn = document.getElementById('profileBackBtn');
 
     if (profileAvatar && mainPage && profilePage && profileBackBtn) {
-      // Открыть профиль по клику на аватар
-      profileAvatar.addEventListener('click', () => {
-        mainPage.style.display = 'none';
-        profilePage.style.display = 'block';
-        window.scrollTo(0, 0);
-      });
+  // Открыть профиль по клику на аватар
+  profileAvatar.addEventListener('click', () => {
+    showOnlyPage(profilePage);
+  });
 
-      // Назад на главную
-      profileBackBtn.addEventListener('click', () => {
-        profilePage.style.display = 'none';
-        mainPage.style.display = 'block';
-        window.scrollTo(0, 0);
-      });
-    }
+  // Назад на главную
+  profileBackBtn.addEventListener('click', () => {
+    showOnlyPage(mainPage);
+  });
+}
+
 
     // ===== ЛОГИКА ТАБОВ Профиль / Безопасность =====
     const profileTabButtons = document.querySelectorAll('.profile-tab');
@@ -4878,11 +5439,11 @@ if (promoSlider) {
 
 
 /* ===== ROYAL MINES: переход между страницами ===== */
-const crashRoyalPage   = document.getElementById('crashRoyalPage');
-const chickenRoadPage  = document.getElementById('chickenRoadPage');
-const slotRoyalPage    = document.getElementById('slotRoyalPage');
+// const crashRoyalPage   = document.getElementById('crashRoyalPage');
+// const chickenRoadPage  = document.getElementById('chickenRoadPage');
+// const slotRoyalPage    = document.getElementById('slotRoyalPage');
 
-const minesRoyalPage   = document.getElementById('minesRoyalPage');
+// const minesRoyalPage   = document.getElementById('minesRoyalPage');
 const minesBackBtn     = document.getElementById('minesBackBtn');
 const minesCards       = document.querySelectorAll('[data-open-game="royal-mines"]');
 
@@ -4903,18 +5464,122 @@ if (minesRoyalPage && minesBackBtn && mainPage) {
   });
 
   // кнопка "Назад в лобби"
-  minesBackBtn.addEventListener('click', () => {
-    minesRoyalPage.style.display = 'none';
-    mainPage.style.display       = 'block';
-    window.scrollTo(0, 0);
-  });
+ minesBackBtn.addEventListener('click', () => {
+  const bgAudio = document.getElementById('minesMusic');
+  if (bgAudio) {
+    bgAudio.pause();          // остановить музыку
+    bgAudio.currentTime = 0;  // перемотать на начало
+  }
+
+  minesRoyalPage.style.display = 'none';
+  mainPage.style.display       = 'block';
+  window.scrollTo(0, 0);
+});
 }
 
 /* ========= ROYAL MINES: логика игры ========= */
 
 const minesGridEl     = document.getElementById('minesGrid');
 const minesStatusEl   = document.getElementById('minesStatus');
+
+const minesAlertEl = document.getElementById('minesAlert');
+
+function showMinesAlert(text) {
+  if (!minesAlertEl) return;
+
+  minesAlertEl.textContent = text;
+  minesAlertEl.classList.add('show');
+
+  clearTimeout(minesAlertEl._hideTimer);
+  minesAlertEl._hideTimer = setTimeout(() => {
+    minesAlertEl.classList.remove('show');
+  }, 2000);
+}
+
+
 const minesBetInput   = document.getElementById('minesBet');
+const minesBetDisplay = document.getElementById('minesBetDisplay');
+const minesMultStrip = document.getElementById('minesMultStrip');
+
+
+function setMinesBet(value) {
+  let v = parseInt(value, 10) || 0;
+  if (v < 1) v = 1;
+
+  minesBetInput.value = v;
+  if (minesBetDisplay) {
+    minesBetDisplay.textContent = v;
+  }
+}
+
+const minesBetValueBox = document.querySelector('.mines-bet-value');
+
+if (minesBetValueBox) {
+  minesBetValueBox.style.cursor = 'pointer';
+  minesBetValueBox.addEventListener('click', () => {
+    const current = parseInt(minesBetInput.value, 10) || 1;
+    const entered = parseInt(
+      prompt('Введите сумму ставки', current) || '',
+      10
+    );
+
+    if (Number.isNaN(entered) || entered < 1) return;
+
+    setMinesBet(entered);
+  });
+}
+
+// построить ленту коэффициентов под текущее число мин
+function buildMinesMultStrip() {
+  if (!minesMultStrip) return;
+
+  minesMultStrip.innerHTML = '';
+
+  const step = getMinesStepPerSafe();
+  let m = 1.0;
+  const maxSafeOpens = MINES_SIZE - minesBombCount; // сколько безопасных можно открыть
+
+  for (let i = 1; i <= maxSafeOpens; i++) {
+    m += step;
+    const pill = document.createElement('div');
+    pill.className = 'mines-mult-pill';
+    pill.dataset.index = i; // номер безопасной клетки
+    pill.textContent = `×${m.toFixed(2)}`;
+    minesMultStrip.appendChild(pill);
+  }
+}
+
+// подсветить текущий коэффициент и проскроллить к нему
+function markCurrentMult() {
+  if (!minesMultStrip) return;
+
+  minesMultStrip.querySelectorAll('.mines-mult-pill')
+    .forEach(p => p.classList.remove('current'));
+
+  // minesOpened – сколько безопасных уже открыто
+  const pill = minesMultStrip.querySelector(
+    `.mines-mult-pill[data-index="${minesOpened}"]`
+  );
+
+  if (pill) {
+    pill.classList.add('current');
+
+    const container = minesMultStrip;
+    const targetLeft = pill.offsetLeft - container.clientWidth / 2 + pill.clientWidth / 2;
+
+    container.scrollTo({
+      left: Math.max(0, targetLeft),
+      behavior: 'smooth'
+    });
+  }
+}
+
+
+// стартовое выравнивание
+if (minesBetInput) {
+  setMinesBet(minesBetInput.value);
+}
+
 const minesPlayBtn    = document.getElementById('minesPlayBtn');
 const minesCashoutBtn = document.getElementById('minesCashoutBtn');
 
@@ -4922,6 +5587,8 @@ const minesCashoutBtn = document.getElementById('minesCashoutBtn');
 /* выбор мин */
 const minesCountDisplay = document.getElementById('minesCountDisplay');
 const minesMinesBtns    = document.querySelectorAll('.mines-mines-step');
+
+
 
 let minesRunning    = false;
 let minesOpened     = 0;
@@ -4936,7 +5603,55 @@ const MINES_SIZE = 25;      // 5x5
 let minesBombCount = 3;     // текущее число мин (по умолчанию 3)
 
 const MIN_MINES = 1;
-const MAX_MINES = 20;
+const MAX_MINES = 24
+
+const minesBombButtons = document.querySelectorAll('.mines-bombs-btn');
+
+function applyMinesBombCount(value) {
+  minesBombCount = value;
+
+  // пересобрать ленту коэффициентов под новое число мин
+  buildMinesMultStrip();
+
+  if (!minesRunning) {
+    minesStatusEl.textContent = `Мины: ${minesBombCount}. Нажми «Играть».`;
+  }
+}
+
+
+
+if (minesBombButtons.length) {
+  minesBombButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const bombs = btn.dataset.bombs;
+      let newValue = minesBombCount;
+
+      if (bombs === 'custom') {
+        const entered = parseInt(
+          prompt(`Введите количество мин от ${MIN_MINES} до ${MAX_MINES}`, minesBombCount) || '',
+          10
+        );
+        if (Number.isNaN(entered)) return;
+
+        newValue = Math.min(MAX_MINES, Math.max(MIN_MINES, entered));
+      } else {
+        newValue = parseInt(bombs, 10) || minesBombCount;
+      }
+
+      applyMinesBombCount(newValue);
+
+      minesBombButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  // стартовый пресет
+  applyMinesBombCount(parseInt(
+    document.querySelector('.mines-bombs-btn.active')?.dataset.bombs || minesBombCount,
+    10
+  ));
+}
+
 
 
 
@@ -4961,7 +5676,7 @@ minesMinesBtns.forEach(btn => {
     }
 
     if (!minesRunning) {
-      minesStatusEl.textContent = `Мины: ${minesBombCount}. Нажми «Играть».`;
+      minesStatusEl.textContent = ``;
     }
   });
 });
@@ -5023,7 +5738,9 @@ function startMinesRound() {
   }
 
   if (bet > playerBalance) {
-    minesStatusEl.textContent = "Недостаточно средств";
+    // minesStatusEl.textContent = "Недостаточно средств";
+    showTopToast("Недостаточно средств");
+
     return;
   }
 
@@ -5040,7 +5757,10 @@ function startMinesRound() {
   generateMines();
   resetMinesGrid();
 
-  minesStatusEl.textContent = "Открывай клетки!";
+  minesOpened = 0;
+markCurrentMult();
+minesStatusEl.textContent = "";
+
 }
 
 /* универсальная функция открытия всех клеток */
@@ -5112,14 +5832,12 @@ if (minesGridEl) {
 
     minesOpened++;
 
-    const step = getMinesStepPerSafe();
-    minesMultiplier += step;
+const step = getMinesStepPerSafe();
+minesMultiplier += step;
 
-    minesStatusEl.textContent = `×${minesMultiplier.toFixed(2)} — продолжай!`;
-
-    if (minesOpened >= MINES_SIZE - minesBombCount) {
-      endMinesRound(true);
-    }
+// вместо прямого вывода коэффициента – просто статус
+minesStatusEl.textContent = "";
+markCurrentMult();
   });
 }
 
@@ -5132,9 +5850,9 @@ function endMinesRound(win) {
   if (win) {
     const prize = Math.round(minesActiveBet * minesMultiplier);
     changePlayerBalance(prize);
-    minesStatusEl.textContent = `Вы выиграли ${prize} CR`;
+    minesStatusEl.textContent = ``;
   } else {
-    minesStatusEl.textContent = "Бомба! Проигрыш.";
+    minesStatusEl.textContent = "";
   }
 
   minesPlayBtn.disabled    = false;
@@ -5149,8 +5867,7 @@ if (minesCashoutBtn) {
     const prize = Math.round(minesActiveBet * minesMultiplier);
     changePlayerBalance(prize);
 
-    minesStatusEl.textContent =
-      `Забрал ×${minesMultiplier.toFixed(2)} = ${prize} CR`;
+    minesStatusEl.textContent ="";
 
     minesRunning = false;
     minesPlayBtn.disabled    = false;
@@ -5182,9 +5899,165 @@ document.querySelectorAll('.mines-quick').forEach(btn => {
   btn.addEventListener('click', () => {
     const val = parseInt(btn.dataset.quick, 10) || 0;
     if (val > 0) {
-      minesBetInput.value = val;
+      setMinesBet(val);
     }
   });
+});
+
+
+const minesBetMinMaxBtns = document.querySelectorAll('.mines-bet-minmax');
+
+minesBetMinMaxBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const role = btn.dataset.role;
+    if (role === 'min') {
+      setMinesBet(1);
+    }
+    if (role === 'max') {
+      setMinesBet(playerBalance); // максимум — весь текущий баланс
+    }
+  });
+});
+
+
+/* ===== ROYAL MINES: "КАК ИГРАТЬ" И БУРГЕР ===== */
+const minesHowBtn      = document.getElementById('minesHowBtn');
+const minesHowOverlay  = document.getElementById('minesHowOverlay');
+const minesHowClose    = document.getElementById('minesHowClose');
+
+if (minesHowBtn && minesHowOverlay && minesHowClose) {
+  minesHowBtn.addEventListener('click', () => {
+    minesHowOverlay.classList.add('open');
+  });
+
+  minesHowClose.addEventListener('click', () => {
+    minesHowOverlay.classList.remove('open');
+  });
+
+  minesHowOverlay.addEventListener('click', (e) => {
+    if (e.target === minesHowOverlay) {
+      minesHowOverlay.classList.remove('open');
+    }
+  });
+}
+
+// бургер-меню
+const minesMenuBtn       = document.getElementById('minesMenuBtn');
+const minesMenuDropdown  = document.getElementById('minesMenuDropdown');
+let minesSoundOn  = true;
+let minesMusicOn  = true;
+
+if (minesMenuBtn && minesMenuDropdown) {
+  minesMenuBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    minesMenuDropdown.classList.toggle('open');
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.mines-menu-wrapper')) {
+      minesMenuDropdown.classList.remove('open');
+    }
+  });
+
+  minesMenuDropdown.querySelectorAll('.mines-menu-item').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const action  = btn.dataset.action;
+      const labelEl = btn.querySelector('.mines-menu-label');
+      const iconImg = btn.querySelector('.mines-menu-icon img');
+      const bgAudio = document.getElementById('minesMusic'); // <audio>
+
+      if (action === 'sound') {
+        minesSoundOn = !minesSoundOn;
+
+        // текст
+        if (labelEl) {
+          labelEl.textContent = `Звук: ${minesSoundOn ? 'вкл' : 'выкл'}`;
+        }
+
+        // иконка
+        if (iconImg) {
+          iconImg.src = minesSoundOn
+            ? 'icons/sound-on.png'
+            : 'icons/sound-off.png'
+        }
+
+        // подсветка пункта
+        btn.classList.toggle('active', minesSoundOn);
+
+        // тут можно включать/выключать звуки кликов, если будут
+      }
+
+      if (action === 'music') {
+        minesMusicOn = !minesMusicOn;
+
+        // текст
+        if (labelEl) {
+          labelEl.textContent = `Музыка: ${minesMusicOn ? 'вкл' : 'выкл'}`;
+        }
+
+        // иконка
+        if (iconImg) {
+          iconImg.src = minesMusicOn
+            ? 'icons/music-on.png'
+            : 'icons/music-off.png'
+        }
+
+        // подсветка пункта
+        btn.classList.toggle('active', minesMusicOn);
+
+        // реальное включение / выключение музыки
+        if (bgAudio) {
+          if (minesMusicOn) {
+            bgAudio.currentTime = 0;
+            bgAudio.play().catch(() => {});
+          } else {
+            bgAudio.pause();
+          }
+        }
+      }
+
+      if (action === 'rules') {
+        if (minesHowOverlay) {
+          minesHowOverlay.classList.add('open');
+        }
+      }
+    });
+  });
+}
+
+function showTopToast(text) {
+  const toast = document.getElementById("topToast");
+  toast.textContent = text;
+  toast.classList.add("show");
+
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2000); // исчезает через 2 сек
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  const bgAudio = document.getElementById("minesMusic");
+  if (bgAudio) {
+    bgAudio.volume = 1.0;
+    bgAudio.play().catch(() => {
+      // браузер мог запретить автоплей, ждём первого клика
+      document.addEventListener("click", () => {
+        bgAudio.play().catch(() => {});
+      }, { once: true });
+    });
+  }
+
+  // обновляем иконку и текст в меню
+  const musicBtn  = document.querySelector('.mines-menu-item[data-action="music"]');
+  if (musicBtn) {
+    const labelEl = musicBtn.querySelector('.mines-menu-label');
+    const iconImg = musicBtn.querySelector('.mines-menu-icon img');
+    musicBtn.classList.add("active");
+
+    if (labelEl) labelEl.textContent = "Музыка: вкл";
+    if (iconImg) iconImg.src = "icons/music-on.svg";
+  }
 });
 
 
@@ -5195,9 +6068,15 @@ document.querySelectorAll('.mines-quick').forEach(btn => {
 
 
 
-
-
-
   </script>
+
+<!-- МОДАЛКА "КАК ИГРАТЬ" ДЛЯ ROYAL MINES -->
+
+<div class="top-toast" id="topToast"></div>
+<audio id="minesMusic" src="audio/mines-bg.mp3" loop></audio>
+<div id="gameLoaderOverlay">
+  <div class="game-loader-spinner"></div>
+  <div class="game-loader-text">Загрузка…</div>
+</div>
 </body>
 </html>
